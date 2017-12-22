@@ -1,0 +1,36 @@
+buy:
+  #Turn on/off buying system (buy, addbuyitem, delbuyitem commands)
+  active: true
+  #If there is not enough money or space in inventory, buy max possible amount (true) or cancel buying (false)
+  count-max-amount: true
+
+sell:
+  #Turn on/off selling system (sell, addsellitem, delsellitem commands)
+  active: true
+  #If there is not enough items, sell max possible amount (true) or cancel selling (false)
+  count-max-amount: true
+
+auction:
+  #Turn on/off auction system (auc, bet commands)
+  active: true
+  #Auction duration
+  duration: 300000
+  #Periodicity of notifications about the ongoing auction
+  notify-period: 60000
+  #Price for starting an auction (set 0 to turn it off)
+  tax: 50
+  #End tax in percents (tax is taken from the final bid)
+  end-tax: 1
+  #Write about starting and finishing auctions to log
+  logging: false
+
+general:
+  #Plugin language. Default - use server language, eng and rus are supported. You can use your own lang file
+  language: default
+  #Saving info about transactions in log
+  transaction-logging: false
+  #Saving info about editing item lists in log
+  shopedit-logging: true
+  #Do not touch this
+  debug-mode: false
+  save-translation: true
