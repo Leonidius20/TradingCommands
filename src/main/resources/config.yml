@@ -3,12 +3,20 @@ buy:
   active: true
   #If there is not enough money or space in inventory, buy max possible amount (true) or cancel buying (false)
   count-max-amount: true
+  #Primary color of messages
+  primary-color: a
+  #Secondary color of messages
+  secondary-color: 2
 
 sell:
   #Turn on/off selling system (sell, addsellitem, delsellitem commands)
   active: true
   #If there is not enough items, sell max possible amount (true) or cancel selling (false)
   count-max-amount: true
+  #Primary color of messages
+  primary-color: a
+  #Secondary color of messages
+  secondary-color: 2
 
 auction:
   #Turn on/off auction system (auc, bet commands)
@@ -21,14 +29,14 @@ auction:
   tax: 50
   #End tax in percents (tax is taken from the final bid)
   end-tax: 1
-  #Write about starting and finishing auctions to log
-  logging: false
+  #Primary color of messages
+  primary-color: a
+  #Secondary color of messages
+  secondary-color: 2
 
 general:
   #Plugin language. Default - use server language, eng and rus are supported. You can use your own lang file
   language: default
-  #Saving info about transactions in log
-  transaction-logging: false
   #Saving info about editing item lists in log
   shopedit-logging: true
   #Do not touch this

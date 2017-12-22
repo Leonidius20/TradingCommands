@@ -9,7 +9,6 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.Config;
 import ua.leonidius.trading.Main;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 

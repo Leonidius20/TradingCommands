@@ -6,13 +6,8 @@ import cn.nukkit.command.CommandExecutor;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
 import cn.nukkit.command.data.CommandParameter;
-import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
-import me.onebone.economyapi.EconomyAPI;
 import ua.leonidius.trading.Main;
-import ua.leonidius.trading.settings.Settings;
-import ua.leonidius.trading.utils.ItemName;
-import ua.leonidius.trading.utils.MaxStackSize;
 import ua.leonidius.trading.utils.Message;
 
 /**

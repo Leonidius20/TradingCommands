@@ -9,7 +9,6 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.Config;
 import ua.leonidius.trading.Main;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
@@ -51,11 +50,11 @@ public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
             config.save();
             config.reload();
             Message.LIST_BUY_DELETED.print(sender, name, id, meta, Buy.color1, Buy.color2);
-            if (Settings.general.editLogging) {
+            if (Buy.editLogging) {
                 Message.LIST_BUY_DELETED_LOG.log(sender.getName(), name, id, meta, "NOCOLOR");
             }
             Message.LIST_BUY_DELETED_LOG.broadcast("trading.editshoplist", '7','7', sender.getName(), name, id, meta);
-        } else Message.LIST_DOESNOT_EXIST.print(sender, 'c');
+        } else Message.LIST_DOESNOT_EXIST.print(sender, Buy.errorColor);
         return true;
     }
 }

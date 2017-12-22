@@ -6,6 +6,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
 import cn.nukkit.utils.TextFormat;
 import ua.leonidius.trading.Main;
+import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.auction.BetCmd;
 import ua.leonidius.trading.auction.StartAuctionCmd;
 import ua.leonidius.trading.buy.AddBuyItemCmd;
@@ -14,8 +15,8 @@ import ua.leonidius.trading.buy.BuyCmd;
 import ua.leonidius.trading.buy.DelBuyItemCmd;
 import ua.leonidius.trading.sell.AddSellItemCmd;
 import ua.leonidius.trading.sell.DelSellItemCmd;
+import ua.leonidius.trading.sell.Sell;
 import ua.leonidius.trading.sell.SellCmd;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 
 /**
@@ -40,13 +41,13 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
             PluginCommand blist = new BuyListCmd();
             sender.sendMessage(TextFormat.AQUA + blist.getUsage() + TextFormat.WHITE + " - " + blist.getDescription());
         }
-        if (Settings.sell.active){
+        if (Sell.active){
             PluginCommand sell = new SellCmd();
             sender.sendMessage(TextFormat.AQUA+sell.getUsage()+TextFormat.WHITE+" - "+sell.getDescription());
             PluginCommand slist = new SellListCmd();
             sender.sendMessage(TextFormat.AQUA+slist.getUsage()+TextFormat.WHITE+" - "+slist.getDescription());
         }
-        if (Settings.auction.active) {
+        if (Auction.isSystemActive()) {
             PluginCommand auc = new StartAuctionCmd();
             sender.sendMessage(TextFormat.AQUA + auc.getUsage() + TextFormat.WHITE + " - " + auc.getDescription());
             PluginCommand bet = new BetCmd();
@@ -59,14 +60,14 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
                 PluginCommand dbi = new DelBuyItemCmd();
                 sender.sendMessage(TextFormat.AQUA+dbi.getUsage()+TextFormat.WHITE+" - "+dbi.getDescription());
             }
-            if (Settings.sell.active) {
+            if (Sell.active) {
                 PluginCommand asi = new AddSellItemCmd();
                 sender.sendMessage(TextFormat.AQUA + asi.getUsage() + TextFormat.WHITE + " - " + asi.getDescription());
                 PluginCommand dsi = new DelSellItemCmd();
                 sender.sendMessage(TextFormat.AQUA + dsi.getUsage() + TextFormat.WHITE + " - " + dsi.getDescription());
             }
         }
-        if (Buy.active || Settings.sell.active || Settings.auction.active) {
+        if (Buy.active || Sell.active || Auction.isSystemActive()) {
             PluginCommand id = new IdCmd();
             sender.sendMessage(TextFormat.AQUA + id.getUsage() + TextFormat.WHITE + " - " + id.getDescription());
         }

@@ -3,6 +3,8 @@ package ua.leonidius.trading;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
+import me.onebone.economyapi.EconomyAPI;
+import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.auction.BetCmd;
 import ua.leonidius.trading.auction.StartAuctionCmd;
 import ua.leonidius.trading.buy.AddBuyItemCmd;
@@ -13,9 +15,9 @@ import ua.leonidius.trading.buy.DelBuyItemCmd;
 import ua.leonidius.trading.help.*;
 import ua.leonidius.trading.sell.AddSellItemCmd;
 import ua.leonidius.trading.sell.DelSellItemCmd;
+import ua.leonidius.trading.sell.Sell;
 import ua.leonidius.trading.sell.SellCmd;
 import ua.leonidius.trading.help.SellListCmd;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 
 import java.io.File;
@@ -27,7 +29,7 @@ import java.io.File;
 
 
 public class Main extends PluginBase {
-    public static Main plugin;
+    private static Main plugin;
     public static Main getPlugin() {
         return plugin;
     }
@@ -36,14 +38,14 @@ public class Main extends PluginBase {
     public static Config discountCfg;
     public static Config sellcfg;
 
+    public static String currency = EconomyAPI.getInstance().getMonetaryUnit();
+
     //public static String plgname;
-    //стринг енам вальюс в параметрах команді, можно свои делать!
 
     @Override
     public void onEnable() {
         plugin = this;
         initConfig();
-        Settings.init();
         Message.init(this);
         initCmd();
     }
@@ -68,17 +70,17 @@ public class Main extends PluginBase {
             cm.register(prefix, new BuyListCmd());
             //addsale delsale
         }
-        if (Settings.sell.active) {
+        if (Sell.active) {
             cm.register(prefix, new SellCmd());
             cm.register(prefix, new AddSellItemCmd());
             cm.register(prefix, new DelSellItemCmd());
             cm.register(prefix, new SellListCmd());
         }
-        if (Settings.auction.active){
+        if (Auction.isSystemActive()){
             cm.register(prefix, new StartAuctionCmd());
             cm.register(prefix, new BetCmd());
         }
-        if (Buy.active || Settings.sell.active || Settings.auction.active) {
+        if (Buy.active || Sell.active || Auction.isSystemActive()) {
             cm.register(prefix, new IdCmd());
             cm.register(prefix, new HelpCmd());
         }

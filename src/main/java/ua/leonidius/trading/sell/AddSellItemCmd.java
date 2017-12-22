@@ -9,7 +9,6 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.item.Item;
 import cn.nukkit.utils.Config;
 import ua.leonidius.trading.Main;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
@@ -50,14 +49,14 @@ public class AddSellItemCmd extends PluginCommand implements CommandExecutor{
         Config config = Main.sellcfg;
         String key = "s-" + id + "-" + meta;
         if (config.exists(key)) {
-            Message.LIST_EXISTS.print(sender, 'c');
+            Message.LIST_EXISTS.print(sender, Sell.errorColor);
             return true;
         }
         config.set(key, price);
         config.save();
         config.reload();
-        Message.LIST_SELL_ADDED.print(sender, name, id, meta, price, Settings.sell.primaryColor, Settings.sell.secondaryColor);
-        if (Settings.general.editLogging) {
+        Message.LIST_SELL_ADDED.print(sender, name, id, meta, price, Sell.color1, Sell.color2);
+        if (Sell.editLogging) {
             Message.LIST_SELL_ADDED_LOG.log(sender.getName(), name, id, meta, price, "NOCOLOR");
         }
         Message.LIST_SELL_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price);

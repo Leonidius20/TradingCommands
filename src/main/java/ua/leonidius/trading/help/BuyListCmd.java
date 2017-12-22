@@ -7,7 +7,6 @@ import cn.nukkit.command.PluginCommand;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import ua.leonidius.trading.Main;
-import ua.leonidius.trading.settings.Settings;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
@@ -54,12 +53,10 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
                         String name = ItemName.get(id, meta);
                         String price = cfg.getString(key);
                         output = output+" "+TextFormat.YELLOW+name+TextFormat.WHITE+" ("+id+":"+meta+")"+" - "+TextFormat.GREEN+price+TextFormat.WHITE+",";
-                    } catch (NumberFormatException e) {
-                        continue;
-                    }
+                    } catch (NumberFormatException e) {}
                 }
             }
-            output = output +" "+Message.LIST_PRICES_IN.getCleanText(Settings.general.currency);
+            output = output +" "+Message.LIST_PRICES_IN.getCleanText(Main.currency);
             sender.sendMessage(output);
         } else {
             Message.LIST_NOTHING.print(sender, "NOCOLOR");

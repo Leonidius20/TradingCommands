@@ -20,7 +20,7 @@ public class Buy {
     static char color2 = Main.getPlugin().getConfig().getString("buy.secondary-color", "2").charAt(0);
     static char errorColor = 'c';
 
-    protected static void buy (Player player, Item item){
+    static void buy (Player player, Item item){
         int amount = item.getCount();
 
         if (!canBuy(item)){
