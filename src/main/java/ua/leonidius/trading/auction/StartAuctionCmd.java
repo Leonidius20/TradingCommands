@@ -9,6 +9,7 @@ import cn.nukkit.command.data.CommandParameter;
 import cn.nukkit.item.Item;
 import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.Main;
+import ua.leonidius.trading.sell.Sell;
 import ua.leonidius.trading.sell.SellCmd;
 import ua.leonidius.trading.utils.Message;
 
@@ -17,41 +18,44 @@ import ua.leonidius.trading.utils.Message;
  */
 public class StartAuctionCmd extends PluginCommand implements CommandExecutor {
 
+    @SuppressWarnings("unchecked")
     public StartAuctionCmd(){
         super ("auc", Main.getPlugin());
+        String amount = Message.AMOUNT.toString();
+        String startPrice = Message.START_PRICE.toString();
         this.setExecutor(this);
-        this.setDescription(Message.CMD_AUC.getText("NOCOLOR"));
-        this.setUsage("/auc [id:meta] ["+Message.AMOUNT.getText("NOCOLOR")+"]"+" "+"<"+Message.START_PRICE.getText("NOCOLOR")+">");
+        this.setDescription(Message.CMD_AUC.toString());
+        this.setUsage("/auc [id:meta] ["+amount+"]"+" "+"<"+startPrice+">");
         this.getCommandParameters().clear();
 
         CommandParameter[] def = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, true),
-                new CommandParameter(Message.AMOUNT.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, true),
-                new CommandParameter(Message.START_PRICE.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, true),
+                new CommandParameter(startPrice, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("default", def);
         CommandParameter[] string = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
-                new CommandParameter(Message.AMOUNT.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, false),
-                new CommandParameter(Message.START_PRICE.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, false)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, false),
+                new CommandParameter(startPrice, CommandParameter.ARG_TYPE_INT, false)
         };
         this.getCommandParameters().put("defaultWithString", string);
 
         //Подажа всех вещей указанного типа, что есть в инвентаре
         CommandParameter[] defNoAmount = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, true),
-                new CommandParameter(Message.START_PRICE.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(startPrice, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("defaultNoAmount", defNoAmount);
         CommandParameter[] stringNoAmount = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
-                new CommandParameter(Message.START_PRICE.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, false)
+                new CommandParameter(startPrice, CommandParameter.ARG_TYPE_INT, false)
         };
         this.getCommandParameters().put("defaultWithStringNoAmount", stringNoAmount);
 
         //продажа из рук
         CommandParameter[] fromHands = new CommandParameter[]{
-                new CommandParameter(Message.START_PRICE.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, false)
+                new CommandParameter(startPrice, CommandParameter.ARG_TYPE_INT, false)
         };
         this.getCommandParameters().put("fromHands", fromHands);
 
@@ -59,7 +63,7 @@ public class StartAuctionCmd extends PluginCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) {
-            Message.CMD_CONSOLE.print(sender, 'c');
+            Message.CMD_CONSOLE.printError(sender);
             return true;
         }
 
@@ -75,9 +79,11 @@ public class StartAuctionCmd extends PluginCommand implements CommandExecutor {
 
         int amount;
 
-        if (args.length == 3) try {amount = Integer.parseInt(args[1]);} catch (Exception e) {return false;}
-        else amount = SellCmd.getItemCount(player, item);
-        if (amount < 1) Message.SELL_LESS_THAN_ONE.print(player, 'c');
+        if (args.length == 3) try {
+            amount = Integer.parseInt(args[1]);
+        } catch (Exception e) {return false;}
+        else amount = Sell.getItemCount(player, item);
+        if (amount < 1) Message.SELL_LESS_THAN_ONE.printError(player);
         item.setCount(amount);
 
         double startPrice;

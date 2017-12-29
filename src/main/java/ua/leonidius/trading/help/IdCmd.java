@@ -13,23 +13,24 @@ import ua.leonidius.trading.utils.Message;
  */
 public class IdCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public IdCmd(){
         super ("id", Main.getPlugin());
         this.setExecutor(this);
-        this.setDescription(Message.CMD_ID.getCleanText());
+        this.setDescription(Message.CMD_ID.toString());
         this.setUsage("/id");
         this.getCommandParameters().clear();
     }
 
     public boolean onCommand (CommandSender sender, Command command, String label, String[] args){
         if (!(sender instanceof Player)){
-            Message.CMD_CONSOLE.print(sender, 'c');
+            Message.CMD_CONSOLE.printError(sender);
         } else {
             Player player = (Player) sender;
             int id = player.getInventory().getItemInHand().getId();
             int meta = player.getInventory().getItemInHand().getDamage();
             if (id == 0){
-                Message.ID_EMPTY.print(player, 'c');
+                Message.ID_EMPTY.printError(player);
             } else {
                 Message.ID_ITEMID.print(sender,"NOCOLOR", id, meta);
             }

@@ -17,11 +17,12 @@ import ua.leonidius.trading.utils.ItemName;
  */
 public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public DelBuyItemCmd(){
         super ("delbuyitem", Main.getPlugin());
         String[] aliases = {"dbi"};
         this.setExecutor(this);
-        this.setDescription(Message.CMD_DELBUYITEM.getCleanText());
+        this.setDescription(Message.CMD_DELBUYITEM.toString());
         this.setUsage("/delbuyitem <ID>");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
@@ -49,12 +50,12 @@ public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
             config.remove(key);
             config.save();
             config.reload();
-            Message.LIST_BUY_DELETED.print(sender, name, id, meta, Buy.color1, Buy.color2);
-            if (Buy.editLogging) {
+            Message.LIST_BUY_DELETED.printBuy(sender, name, id, meta);
+            if (Buy.Settings.editLogging) {
                 Message.LIST_BUY_DELETED_LOG.log(sender.getName(), name, id, meta, "NOCOLOR");
             }
             Message.LIST_BUY_DELETED_LOG.broadcast("trading.editshoplist", '7','7', sender.getName(), name, id, meta);
-        } else Message.LIST_DOESNOT_EXIST.print(sender, Buy.errorColor);
+        } else Message.LIST_DOESNOT_EXIST.printError(sender);
         return true;
     }
 }

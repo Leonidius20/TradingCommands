@@ -16,6 +16,7 @@ import ua.leonidius.trading.utils.Message;
  */
 public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
 
+    @SuppressWarnings("unchecked")
     public AddDiscountCmd () {
         super ("adddiscount", Main.getPlugin());
         setExecutor(this);
@@ -52,7 +53,7 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         String key = "d-" + id + "-" + meta;
 
         if (config.exists(key)) {
-            Message.LIST_EXISTS.print(sender, 'c');
+            Message.LIST_EXISTS.printError(sender);
             return true;
         }
 

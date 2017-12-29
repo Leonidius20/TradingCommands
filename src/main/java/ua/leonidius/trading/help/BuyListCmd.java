@@ -18,11 +18,12 @@ import java.util.Set;
  */
 public class BuyListCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public BuyListCmd(){
         super ("buylist", Main.getPlugin());
         this.setExecutor(this);
         String[] aliases = {"blist"};
-        this.setDescription(Message.CMD_BUYLIST.getCleanText());
+        this.setDescription(Message.CMD_BUYLIST.toString());
         this.setAliases(aliases);
         this.setUsage("/buylist (/blist)");
         this.getCommandParameters().clear();
@@ -32,10 +33,10 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
         String output;
         Config cfg;
         if (command == Main.getPlugin().getCommand("buylist")){
-            output = Message.LIST_CAN_BUY.getCleanText();
+            output = Message.LIST_CAN_BUY.toString();
             cfg = Main.buycfg;
         } else if (command == Main.getPlugin().getCommand("selllist")){
-            output = Message.LIST_CAN_SELL.getCleanText();
+            output = Message.LIST_CAN_SELL.toString();
             cfg = Main.sellcfg;
         } else {
             return false;
@@ -56,25 +57,11 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
                     } catch (NumberFormatException e) {}
                 }
             }
-            output = output +" "+Message.LIST_PRICES_IN.getCleanText(Main.currency);
+            output = output +" "+Message.LIST_PRICES_IN.getText(Main.currency, "NOCOLOR");
             sender.sendMessage(output);
         } else {
             Message.LIST_NOTHING.print(sender, "NOCOLOR");
         }
-        /*Object[] keyobj = cfg.getAll().keySet().toArray();
-        for (Object obj: keyobj){
-            String key = obj.toString();
-            String[] idmeta = key.split("-");
-            if (idmeta.length==3) {
-                String id = idmeta[1];
-                String meta = idmeta[2];
-                String name = ItemName.getItemName(Integer.parseInt(id), Integer.parseInt(meta));
-                String price = cfg.getString(key);
-                output = output + " " + name +" ("+id+":"+meta+")"+" - "+price+",";
-            }
-        }
-        output = output +" "+Message.LIST_PRICES_IN.getText("NOCOLOR");
-        sender.sendMessage(output);*/
         return true;
     }
 }

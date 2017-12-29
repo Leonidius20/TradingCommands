@@ -17,23 +17,25 @@ import ua.leonidius.trading.utils.ItemName;
  */
 public class AddBuyItemCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public AddBuyItemCmd(){
         super ("addbuyitem", Main.getPlugin());
+        String price = Message.PRICE.toString();
         String[] aliases = {"abi"};
         this.setExecutor(this);
-        this.setDescription(Message.CMD_ADDBUYITEM.getCleanText());
-        this.setUsage("/addbuyitem <ID> <"+Message.PRICE.getCleanText()+">");
+        this.setDescription(Message.CMD_ADDBUYITEM.toString());
+        this.setUsage("/addbuyitem <ID> <"+price+">");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
         this.getCommandParameters().clear();
         CommandParameter[] def = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, false),
-                new CommandParameter(Message.PRICE.getCleanText(), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(price, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("default", def);
         CommandParameter[] string = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
-                new CommandParameter(Message.PRICE.getCleanText(), CommandParameter.ARG_TYPE_INT, false)
+                new CommandParameter(price, CommandParameter.ARG_TYPE_INT, false)
         };
         this.getCommandParameters().put("string", string);
     }
@@ -53,15 +55,15 @@ public class AddBuyItemCmd extends PluginCommand implements CommandExecutor{
         String key = "b-" + id + "-" + meta;
 
         if (config.exists(key)) {
-            Message.LIST_EXISTS.print(sender, Buy.errorColor);
+            Message.LIST_EXISTS.printError(sender);
             return true;
         }
 
         config.set(key, price);
         config.save();
         config.reload();
-        Message.LIST_BUY_ADDED.print(sender, name, id, meta, price, Buy.color1, Buy.color2);
-        if (Buy.editLogging) Message.LIST_BUY_ADDED_LOG.log(sender.getName(), name, id, meta, price, "NOCOLOR");
+        Message.LIST_BUY_ADDED.printBuy(sender, name, id, meta, price);
+        if (Buy.Settings.editLogging) Message.LIST_BUY_ADDED_LOG.log(sender.getName(), name, id, meta, price, "NOCOLOR");
         Message.LIST_BUY_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price);
         return true;
     }

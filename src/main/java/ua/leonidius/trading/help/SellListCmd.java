@@ -10,11 +10,12 @@ import ua.leonidius.trading.utils.Message;
  */
 public class SellListCmd extends PluginCommand {
 
+    @SuppressWarnings("unchecked")
     public SellListCmd(){
         super ("selllist", Main.getPlugin());
         this.setExecutor(new BuyListCmd());
         String[] aliases = {"slist"};
-        this.setDescription(Message.CMD_SELLLIST.getCleanText());
+        this.setDescription(Message.CMD_SELLLIST.toString());
         this.setUsage("/selllist (/slist)");
         this.setAliases(aliases);
         this.getCommandParameters().clear();

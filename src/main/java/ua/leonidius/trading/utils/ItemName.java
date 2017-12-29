@@ -6,8 +6,7 @@ import cn.nukkit.item.Item;
  * Created by lion on 11.03.17.
  */
 public class ItemName {
-    public static String get(Item item){
-        int id = item.getId();
+    public static String get(int id, int meta){
         if (id == 356){
             return "Repeater";
         } else if (id == 358){
@@ -69,11 +68,11 @@ public class ItemName {
         } else if (id == 392){
             return "Potato";
         } else {
-            return item.getName();
+            return Item.get(id, meta).getName();
         }
     }
 
-    public static String get (int id, int meta){
-        return get(Item.get(id, meta));
+    public static String get (Item item){
+        return get(item.getId(), item.getDamage());
     }
 }

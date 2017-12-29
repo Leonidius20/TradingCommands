@@ -15,20 +15,22 @@ import ua.leonidius.trading.utils.Message;
  */
 public class SellCmd extends PluginCommand implements CommandExecutor {
 
+    @SuppressWarnings("unchecked")
     public SellCmd(){
         super ("sell", Main.getPlugin());
         this.setExecutor(this);
-        this.setDescription(Message.CMD_SELL.getCleanText());
-        this.setUsage("/sell [ID:meta] ["+Message.AMOUNT.getCleanText()+"]");
+        this.setDescription(Message.CMD_SELL.toString());
+        String amount = Message.AMOUNT.toString();
+        this.setUsage("/sell [ID:meta] ["+amount+"]");
         this.getCommandParameters().clear();
         CommandParameter[] params = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, true),
-                new CommandParameter(Message.AMOUNT.getCleanText(), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("default", params);
         CommandParameter[] string = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
-                new CommandParameter(Message.AMOUNT.getCleanText(), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("string", string);
     }
@@ -36,7 +38,7 @@ public class SellCmd extends PluginCommand implements CommandExecutor {
 
     public boolean onCommand (CommandSender sender, Command command, String label, String[] args){
         if (!(sender instanceof Player)){
-            Message.CMD_CONSOLE.print(sender, 'c');
+            Message.CMD_CONSOLE.printError(sender);
             return true;
         }
 

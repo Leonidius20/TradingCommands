@@ -63,24 +63,24 @@ public class Main extends PluginBase {
     private void initCmd(){
         SimpleCommandMap cm = this.getServer().getCommandMap();
         String prefix = "Shop";
-        if (Buy.active) {
+        if (Buy.Settings.active) {
             cm.register(prefix, new BuyCmd());
             cm.register(prefix, new AddBuyItemCmd());
             cm.register(prefix, new DelBuyItemCmd());
             cm.register(prefix, new BuyListCmd());
             //addsale delsale
         }
-        if (Sell.active) {
+        if (Sell.Settings.active) {
             cm.register(prefix, new SellCmd());
             cm.register(prefix, new AddSellItemCmd());
             cm.register(prefix, new DelSellItemCmd());
             cm.register(prefix, new SellListCmd());
         }
-        if (Auction.isSystemActive()){
+        if (Auction.Settings.active){
             cm.register(prefix, new StartAuctionCmd());
             cm.register(prefix, new BetCmd());
         }
-        if (Buy.active || Sell.active || Auction.isSystemActive()) {
+        if (Buy.Settings.active || Sell.Settings.active || Auction.Settings.active) {
             cm.register(prefix, new IdCmd());
             cm.register(prefix, new HelpCmd());
         }

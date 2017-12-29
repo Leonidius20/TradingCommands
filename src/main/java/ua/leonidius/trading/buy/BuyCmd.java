@@ -15,27 +15,29 @@ import ua.leonidius.trading.utils.Message;
  */
 public class BuyCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public BuyCmd(){
         super ("buy", Main.getPlugin());
+        String amount = Message.AMOUNT.toString();
         this.setExecutor(this);
         this.setDescription(Message.CMD_BUY.getCleanText());
-        this.setUsage("/buy <ID> ["+Message.AMOUNT.getCleanText()+"]");
+        this.setUsage("/buy <ID> ["+amount+"]");
         this.getCommandParameters().clear();
         CommandParameter[] def = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, false),
-                new CommandParameter(Message.AMOUNT.getCleanText(), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("default", def);
         CommandParameter[] string = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
-                new CommandParameter(Message.AMOUNT.getCleanText(), CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(amount, CommandParameter.ARG_TYPE_INT, true)
         };
         this.getCommandParameters().put("string", string);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            Message.CMD_CONSOLE.print(sender, 'c');
+            Message.CMD_CONSOLE.printError(sender);
             return true;
         }
         Player player = (Player) sender;

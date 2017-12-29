@@ -15,20 +15,21 @@ import ua.leonidius.trading.utils.Message;
  */
 public class BetCmd extends PluginCommand implements CommandExecutor{
 
+    @SuppressWarnings("unchecked")
     public BetCmd(){
         super ("bet", Main.getPlugin());
         this.setExecutor(this);
-        this.setDescription(Message.CMD_BET.getText("NOCOLOR"));
-        this.setUsage("/bet <"+Message.BID.getText("NOCOLOR")+">");
+        this.setDescription(Message.CMD_BET.toString());
+        this.setUsage("/bet <"+Message.BID.toString()+">");
         this.getCommandParameters().clear();
         CommandParameter[] params = new CommandParameter[]{
-                new CommandParameter(Message.BID.getText("NOCOLOR"), CommandParameter.ARG_TYPE_INT, false)
+                new CommandParameter(Message.BID.toString(), CommandParameter.ARG_TYPE_INT, false)
         };
         this.getCommandParameters().put("default", params);
     }
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) {
-            Message.CMD_CONSOLE.print(sender, 'c');
+            Message.CMD_CONSOLE.printError(sender);
             return true;
         }
         Player player = (Player) sender;

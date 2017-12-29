@@ -7,6 +7,9 @@ package ua.leonidius.trading.utils;
     import cn.nukkit.plugin.PluginBase;
     import cn.nukkit.utils.Config;
     import cn.nukkit.utils.TextFormat;
+    import ua.leonidius.trading.auction.Auction;
+    import ua.leonidius.trading.buy.Buy;
+    import ua.leonidius.trading.sell.Sell;
 
     import java.io.File;
     import java.io.InputStream;
@@ -76,7 +79,7 @@ public enum Message {
     CMD_BET ("Bid on auction"),
     CMD_AUC ("Start an auction"),
 
-    AUC_START ("Auction has been started! On sale - %1%x %2% (%3%:%4%), start price - %5%, seller - %6%."),
+    AUC_START ("Auction has been started! On sale - %1%x %2% (%3%:%4%), start price - %5%, seller - %6%, duration - %7%."),
 
     AUC_TAX_TAKEN ("The starting tax has been taken! (%1%)"),
     AUC_NOTIFICATION ("On auction - %1%x %2% (%3%:%4%), current bid - %5%, time left - %6%"),
@@ -90,7 +93,7 @@ public enum Message {
     AUC_RUNNING ("Auction is running. Wait for its ending."),
     AUC_NEW_BID ("Player %1% has bet %2%$"),
     AUC_NOT_RUNNING ("There is no auction now."),
-    AUC_DURATION ("Auction duration - %1%."),
+    //AUC_DURATION ("Auction duration - %1%."),
     AUC_NOT_ENOUGH_MONEY ("Not enough money to pay auction tax (%1%$)."),
     AUC_YOUR ("You cannot bet on your own auction."),
     AUC_CREATIVE ("You cannot start an auction while you are in creative mode."),
@@ -108,8 +111,35 @@ public enum Message {
 
     private static PluginBase plugin = null;
 
+    //Сообщения в цветах аукциона
+    public void printAuc (CommandSender sender, Object... s) {
+        print(sender, Auction.Settings.color1, Auction.Settings.color2, s);
+    }
 
+    public void broadcastAuc (String permission, Object... s) {
+        broadcast(permission, Auction.Settings.color1, Auction.Settings.color2, s);
+    }
 
+    public void sendTipAuc (Player player, Object... s) {
+        player.sendTip(getText(Auction.Settings.color1, Auction.Settings.color2, s));
+    }
+
+    public void sendPopupAuc (Player player, Object... s) {
+        player.sendPopup(getText(Auction.Settings.color1, Auction.Settings.color2, s));
+    }
+
+    public void printError (CommandSender sender, Object... s) {
+        print(sender, 'c', s);
+    }
+
+    //
+    public void printBuy (CommandSender sender, Object... s) {
+        print(sender, Buy.Settings.color1, Buy.Settings.color2, s);
+    }
+
+    public void printSell (CommandSender sender, Object... s) {
+        print(sender, Sell.Settings.color1, Sell.Settings.color2, s);
+    }
 
     /**
      * Send current message to log files
