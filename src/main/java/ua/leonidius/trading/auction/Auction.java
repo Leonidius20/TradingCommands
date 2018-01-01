@@ -53,7 +53,7 @@ public abstract class Auction {
         }
 
         if (EconomyAPI.getInstance().myMoney(player) < Settings.startTax) {
-            Message.AUC_NOT_ENOUGH_MONEY.printError(player, Settings.startTax);
+            Message.AUC_NOT_ENOUGH_MONEY.printError(player, Settings.startTax, Main.currency);
             return;
         }
 
@@ -86,10 +86,10 @@ public abstract class Auction {
 
         //отправка уведомления о старте в чат
         Date date = new Date(Settings.duration);
-        Message.AUC_START.broadcastAuc(null, item.getCount(), item.getName(), item.getId(), item.getDamage(), currentBet, trader.getName(), sdf.format(date));
+        Message.AUC_START.broadcastAuc(null, item.getCount(), item.getName(), item.getId(), item.getDamage(), currentBet, Main.currency, trader.getName(), sdf.format(date));
         //Message.AUC_DURATION.broadcastAuc(null, sdf.format(date));
 
-        if (Settings.startTax!=0) Message.AUC_TAX_TAKEN.printAuc(trader, Settings.startTax);
+        if (Settings.startTax!=0) Message.AUC_TAX_TAKEN.printAuc(trader, Settings.startTax, Main.currency);
     }
 
     static void bet (Player player, double bet){
@@ -104,7 +104,7 @@ public abstract class Auction {
         }
 
         if ((bet - currentBet) < 1) {
-            Message.AUC_SMALLBET.printError(player);
+            Message.AUC_SMALLBET.printError(player, Main.currency);
             return;
         }
 
@@ -115,7 +115,7 @@ public abstract class Auction {
 
         currentWinner = player;
         currentBet = bet;
-        Message.AUC_NEW_BID.broadcastAuc(null, player.getName(), bet);
+        Message.AUC_NEW_BID.broadcastAuc(null, player.getName(), bet, Main.currency);
     }
 
 }
@@ -150,7 +150,7 @@ class StopAuction extends TimerTask {
         EconomyAPI.getInstance().addMoney(Auction.trader, finalEarnings);
         Message.AUC_FINISHED_WINNER.broadcastAuc(null, Auction.currentWinner.getName());
         Message.AUC_FINISHED.sendTipAuc(Auction.trader);
-        Message.AUC_YOU_EARNED.sendPopupAuc(Auction.trader, finalEarnings);
+        Message.AUC_YOU_EARNED.sendPopupAuc(Auction.trader, finalEarnings, Main.currency);
         Auction.currentWinner=null;
     }
 }
@@ -163,6 +163,6 @@ class AuctionNotifier extends TimerTask {
         long timePast = currentTime- Auction.startTime;
         long timeLeft = Auction.Settings.duration - timePast;
         Date timeLeftDate = new Date (timeLeft);
-        Message.AUC_NOTIFICATION.broadcastAuc(null, Auction.item.getCount(), Auction.item.getName(), Auction.item.getId(), Auction.item.getDamage(), Auction.currentBet, Auction.sdf.format(timeLeftDate));
+        Message.AUC_NOTIFICATION.broadcastAuc(null, Auction.item.getCount(), Auction.item.getName(), Auction.item.getId(), Auction.item.getDamage(), Auction.currentBet, Main.currency, Auction.sdf.format(timeLeftDate));
     }
 }

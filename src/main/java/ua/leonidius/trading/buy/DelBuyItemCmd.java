@@ -23,7 +23,7 @@ public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
         String[] aliases = {"dbi"};
         this.setExecutor(this);
         this.setDescription(Message.CMD_DELBUYITEM.toString());
-        this.setUsage("/delbuyitem <ID>");
+        this.setUsage("/delbuyitem <ID:[meta]>");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
         this.getCommandParameters().clear();

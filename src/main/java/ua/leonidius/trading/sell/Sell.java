@@ -11,7 +11,7 @@ import ua.leonidius.trading.utils.Message;
 /**
  * Created by Leonidius20 on 22.12.17.
  */
-public class Sell {
+public abstract class Sell {
 
     public static class Settings {
         public static boolean active = Main.getPlugin().getConfig().getBoolean("sell.active", true);

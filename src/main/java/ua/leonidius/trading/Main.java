@@ -7,11 +7,8 @@ import me.onebone.economyapi.EconomyAPI;
 import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.auction.BetCmd;
 import ua.leonidius.trading.auction.StartAuctionCmd;
-import ua.leonidius.trading.buy.AddBuyItemCmd;
-import ua.leonidius.trading.buy.Buy;
-import ua.leonidius.trading.buy.BuyCmd;
+import ua.leonidius.trading.buy.*;
 import ua.leonidius.trading.help.BuyListCmd;
-import ua.leonidius.trading.buy.DelBuyItemCmd;
 import ua.leonidius.trading.help.*;
 import ua.leonidius.trading.sell.AddSellItemCmd;
 import ua.leonidius.trading.sell.DelSellItemCmd;
@@ -68,7 +65,8 @@ public class Main extends PluginBase {
             cm.register(prefix, new AddBuyItemCmd());
             cm.register(prefix, new DelBuyItemCmd());
             cm.register(prefix, new BuyListCmd());
-            //addsale delsale
+            cm.register(prefix, new AddDiscountCmd());
+            cm.register(prefix, new DelDiscountCmd());
         }
         if (Sell.Settings.active) {
             cm.register(prefix, new SellCmd());

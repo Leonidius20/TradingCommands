@@ -23,7 +23,7 @@ public class DelSellItemCmd extends PluginCommand implements CommandExecutor{
         String[] aliases = {"dsi"};
         this.setExecutor(this);
         this.setDescription(Message.CMD_DELSELLITEM.toString());
-        this.setUsage("/delsellitem <ID>");
+        this.setUsage("/delsellitem <ID:[meta]>");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
         this.getCommandParameters().clear();

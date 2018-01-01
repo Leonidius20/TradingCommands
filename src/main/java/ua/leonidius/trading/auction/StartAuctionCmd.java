@@ -25,7 +25,7 @@ public class StartAuctionCmd extends PluginCommand implements CommandExecutor {
         String startPrice = Message.START_PRICE.toString();
         this.setExecutor(this);
         this.setDescription(Message.CMD_AUC.toString());
-        this.setUsage("/auc [id:meta] ["+amount+"]"+" "+"<"+startPrice+">");
+        this.setUsage("/auc [ID:[meta]] ["+amount+"]"+" "+"<"+startPrice+">");
         this.getCommandParameters().clear();
 
         CommandParameter[] def = new CommandParameter[]{

@@ -21,7 +21,7 @@ public class SellCmd extends PluginCommand implements CommandExecutor {
         this.setExecutor(this);
         this.setDescription(Message.CMD_SELL.toString());
         String amount = Message.AMOUNT.toString();
-        this.setUsage("/sell [ID:meta] ["+amount+"]");
+        this.setUsage("/sell [ID:[meta]] ["+amount+"]");
         this.getCommandParameters().clear();
         CommandParameter[] params = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, true),

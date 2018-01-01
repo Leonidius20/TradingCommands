@@ -20,8 +20,8 @@ public class BuyCmd extends PluginCommand implements CommandExecutor{
         super ("buy", Main.getPlugin());
         String amount = Message.AMOUNT.toString();
         this.setExecutor(this);
-        this.setDescription(Message.CMD_BUY.getCleanText());
-        this.setUsage("/buy <ID> ["+amount+"]");
+        this.setDescription(Message.CMD_BUY.toString());
+        this.setUsage("/buy <ID:[meta]> ["+amount+"]");
         this.getCommandParameters().clear();
         CommandParameter[] def = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_RAW_TEXT, false),

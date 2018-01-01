@@ -24,7 +24,7 @@ public class AddSellItemCmd extends PluginCommand implements CommandExecutor{
         this.setExecutor(this);
         this.setDescription(Message.CMD_ADDSELLITEM.toString());
         String price = Message.PRICE.toString();
-        this.setUsage("/addsellitem <ID> <"+price+">");
+        this.setUsage("/addsellitem <ID:[meta]> <"+price+">");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
         this.getCommandParameters().clear();
@@ -57,11 +57,11 @@ public class AddSellItemCmd extends PluginCommand implements CommandExecutor{
         config.set(key, price);
         config.save();
         config.reload();
-        Message.LIST_SELL_ADDED.printSell(sender, name, id, meta, price);
+        Message.LIST_SELL_ADDED.printSell(sender, name, id, meta, price, Main.currency);
         if (Sell.Settings.editLogging) {
-            Message.LIST_SELL_ADDED_LOG.log(sender.getName(), name, id, meta, price, "NOCOLOR");
+            Message.LIST_SELL_ADDED_LOG.log(sender.getName(), name, id, meta, price, Main.currency, "NOCOLOR");
         }
-        Message.LIST_SELL_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price);
+        Message.LIST_SELL_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price, Main.currency);
         return true;
     }
 }

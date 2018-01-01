@@ -3,6 +3,7 @@ package ua.leonidius.trading.buy;
 import cn.nukkit.Player;
 import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
+import cn.nukkit.utils.Config;
 import me.onebone.economyapi.EconomyAPI;
 import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.ItemName;
@@ -14,7 +15,7 @@ import static ua.leonidius.trading.buy.Buy.Settings.countMaxAmount;
 /**
  * Created by Leonidius20 on 26.09.17.
  */
-public class Buy {
+public abstract class Buy {
 
     public static class Settings {
         public static boolean active = Main.getPlugin().getConfig().getBoolean("buy.active", true);
@@ -77,7 +78,7 @@ public class Buy {
         int id = item.getId();
         int meta = item.getDamage();
         String name = ItemName.get(item);
-        Message.BUY_YOU_BOUGHT.printBuy(player, amount, name, id, meta, cost);
+        Message.BUY_YOU_BOUGHT.printBuy(player, amount, name, id, meta, cost, Main.currency);
     }
 
     private static boolean canBuy (Item item){
@@ -92,8 +93,13 @@ public class Buy {
         int meta = item.getDamage();
         String key = "b-"+id+"-"+meta;
         double priceWithoutDiscount = Main.buycfg.getDouble(key);
-        //apply discount
-        return priceWithoutDiscount;
+        double priceWithDiscount = priceWithoutDiscount;
+        String discountKey = "d-"+id+"-"+meta;
+        if (Main.discountCfg.exists(discountKey)) {
+            double discountModifier = Main.discountCfg.getDouble(discountKey)/100;
+            priceWithDiscount = priceWithoutDiscount*discountModifier;
+        }
+        return priceWithDiscount;
     }
 
     private static int getMaxByMoney(Player player, Item item){
@@ -120,5 +126,6 @@ public class Buy {
         }
         return amount;
     }
+
 
 }

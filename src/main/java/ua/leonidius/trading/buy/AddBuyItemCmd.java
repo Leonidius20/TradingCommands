@@ -24,7 +24,7 @@ public class AddBuyItemCmd extends PluginCommand implements CommandExecutor{
         String[] aliases = {"abi"};
         this.setExecutor(this);
         this.setDescription(Message.CMD_ADDBUYITEM.toString());
-        this.setUsage("/addbuyitem <ID> <"+price+">");
+        this.setUsage("/addbuyitem <ID:[meta]> <"+price+">");
         this.setAliases(aliases);
         this.setPermission("trading.editshoplist");
         this.getCommandParameters().clear();
@@ -62,9 +62,9 @@ public class AddBuyItemCmd extends PluginCommand implements CommandExecutor{
         config.set(key, price);
         config.save();
         config.reload();
-        Message.LIST_BUY_ADDED.printBuy(sender, name, id, meta, price);
-        if (Buy.Settings.editLogging) Message.LIST_BUY_ADDED_LOG.log(sender.getName(), name, id, meta, price, "NOCOLOR");
-        Message.LIST_BUY_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price);
+        Message.LIST_BUY_ADDED.printBuy(sender, name, id, meta, price, Main.currency);
+        if (Buy.Settings.editLogging) Message.LIST_BUY_ADDED_LOG.log(sender.getName(), name, id, meta, price, Main.currency, "NOCOLOR");
+        Message.LIST_BUY_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price, Main.currency);
         return true;
     }
 }

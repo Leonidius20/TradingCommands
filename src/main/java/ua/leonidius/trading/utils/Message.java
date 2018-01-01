@@ -22,14 +22,14 @@ public enum Message {
     LNG_SAVE_FAIL("Failed to save lang file"),
     LNG_PRINT_FAIL("Failed to print message to 'null': \"%1%\""),
     LNG_CONFIG("[MESSAGES] Messages: %1% Language: %2% Save translate file: %1% Debug mode: %3%"),
-    CMD_CONSOLE ("You cannot use this command from console."),
 
+    CMD_CONSOLE ("You cannot use this command from console."),
     ID_EMPTY ("You hold nothing in your hand."),
     ID_ITEMID ("You are holding an item with ID %1%:%2%."),
 
     SELL_NOT_SELLING ("You cannot sell this item."),
     SELL_YOU_SOLD ("You have sold %1%x %2% (%3%:%4%) for %5%%6%."),
-    SOLD_LOG ("Player %1% has sold %2%x %3% (%4%:%5%) for %6%%7%."),
+    //SOLD_LOG ("Player %1% has sold %2%x %3% (%4%:%5%) for %6%%7%."),
     SELL_LESS_THAN_ONE ("You cannot sell less than one item."),
     SELL_NO_ITEM ("You have no items to sell."),
     SELL_NO_ITEM_MAX ("Not enough items, max amount will be sold (%1%)."),
@@ -38,8 +38,8 @@ public enum Message {
     BUY_NOT_SELLING ("You cannot buy this item."),
     BUY_LESS_THAN_ONE ("You cannot buy less than one item."),
     BUY_NOT_ENOUGH_MONEY ("Not enough money."),
-    BUY_YOU_BOUGHT ("You have bought %1%x %2% (%3%:%4%) for %5%$."),
-    BOUGHT_LOG ("Player %1% has bought %2%x %2% (%4%:%5%) for %6%$."),
+    BUY_YOU_BOUGHT ("You have bought %1%x %2% (%3%:%4%) for %5%%6%."),
+    //BOUGHT_LOG ("Player %1% has bought %2%x %2% (%4%:%5%) for %6%$."),
     BUY_NO_SPACE ("Not enough space in your inventory."),
     BUY_NO_SPACE_MAX ("Not enough space in your inventory, max amount will be purchased (%1%)."),
     BUY_NO_MONEY_MAX ("Not enough money, max amount will be purchased (%1%)."),
@@ -51,10 +51,16 @@ public enum Message {
     LIST_PRICES_IN ("prices in %1%"),
     LIST_NOTHING ("There is nothing in the list."),
 
-    LIST_BUY_ADDED ("Now you can buy %1% (%2%:%3%) for %4%$ per each."),
-    LIST_BUY_ADDED_LOG ("Player %1% has added %2% (%3%:%4%) to buying list for %5%$ per each."),
-    LIST_SELL_ADDED ("Now you can sell %1% (%2%:%3%) for %4%$ per each."),
-    LIST_SELL_ADDED_LOG ("Player %1% has added %2% (%3%:%4%) to selling list for %5%$ per each."),
+    LIST_BUY_ADDED ("Now you can buy %1% (%2%:%3%) for %4%%5% per each."),
+    LIST_BUY_ADDED_LOG ("Player %1% has added %2% (%3%:%4%) to buying list for %5%%6% per each."),
+    LIST_SELL_ADDED ("Now you can sell %1% (%2%:%3%) for %4%%5% per each."),
+    LIST_SELL_ADDED_LOG ("Player %1% has added %2% (%3%:%4%) to selling list for %5%%6% per each."),
+
+    LIST_DISCOUNT_ADDED_LOG ("Player %1% has added %2% percent discount on %3% (%4%:%5%)."),
+    LIST_DISCOUNT_TEMP_ADDED_LOG ("Player %1% has added %2% percent discount on %3% (%4%:%5%) for %6%."),
+
+    LIST_DISCOUNT_REMOVED_BY_PLAYER ("Player %1% has removed the discount on %2% (%3%:%4%)."),
+    LIST_DISCOUNT_REMOVED ("The discount on %1% (%2%:%3%) was removed."),
 
     LIST_BUY_DELETED ("Now you cannot buy %1% (%2%:%3%)."),
     LIST_BUY_DELETED_LOG ("Player %1% has deleted %2% (%3%:%4%) from list for buying."),
@@ -65,6 +71,8 @@ public enum Message {
     PRICE ("price"),
     BID ("bid"),
     START_PRICE ("start price"),
+    PERCENT ("percent"),
+    DURATION("duration (days)"),
 
     CMD_ID ("Shows ID of an item in your hand."),
     CMD_BUY ("Buy items."),
@@ -78,23 +86,25 @@ public enum Message {
     CMD_HELP ("Shop help."),
     CMD_BET ("Bid on auction"),
     CMD_AUC ("Start an auction"),
+    CMD_ADDDISCOUNT ("Add discount on an item from buy list."),
+    CMD_DELDISCOUNT ("Remove a discount on an item."),
 
-    AUC_START ("Auction has been started! On sale - %1%x %2% (%3%:%4%), start price - %5%, seller - %6%, duration - %7%."),
+    AUC_START ("Auction has been started! On sale - %1%x %2% (%3%:%4%), start price - %5%%6%, seller - %7%, duration - %8%."),
 
-    AUC_TAX_TAKEN ("The starting tax has been taken! (%1%)"),
-    AUC_NOTIFICATION ("On auction - %1%x %2% (%3%:%4%), current bid - %5%, time left - %6%"),
+    AUC_TAX_TAKEN ("The start tax has been taken! (%1%%2%)"),
+    AUC_NOTIFICATION ("On auction - %1%x %2% (%3%:%4%), current bid - %5%%6%, time left - %7%"),
     AUC_TIME_LEFT ("Time left - %1%"),
-    AUC_SMALLBET ("Your bid must be greater than the current one for one dollar."),
+    AUC_SMALLBET ("Your bid must be greater than the current one for one %1%."),
     AUC_FINISHED_WINNER ("Auction has been finished! Winner - %1%."),
     AUC_FINISHED_NOWINNER ("Auction has finished. There were no participants."),
     AUC_FINISHED ("Auction has been finished"),
-    AUC_YOU_EARNED ("You have earned %1%$!"),
+    AUC_YOU_EARNED ("You have earned %1%%2%!"),
     AUC_NOBODY ("Nobody have bet."),
     AUC_RUNNING ("Auction is running. Wait for its ending."),
-    AUC_NEW_BID ("Player %1% has bet %2%$"),
+    AUC_NEW_BID ("Player %1% has bet %2%%3%"),
     AUC_NOT_RUNNING ("There is no auction now."),
     //AUC_DURATION ("Auction duration - %1%."),
-    AUC_NOT_ENOUGH_MONEY ("Not enough money to pay auction tax (%1%$)."),
+    AUC_NOT_ENOUGH_MONEY ("Not enough money to pay auction tax (%1%%2%)."),
     AUC_YOUR ("You cannot bet on your own auction."),
     AUC_CREATIVE ("You cannot start an auction while you are in creative mode."),
     AUC_WINNER_NO_SPACE ("Auction winner has no free space in his inventory. The lot and the tax were returned."),
@@ -103,7 +113,7 @@ public enum Message {
     INCORRECT_PARAMS ("Incorrect parameters.");
 
 
-    private static boolean debugMode = false;
+    //private static boolean debugMode = false;
     private static String language = "english";
     private static char c1 = 'a';
     private static char c2 = '2';
@@ -137,61 +147,31 @@ public enum Message {
         print(sender, Buy.Settings.color1, Buy.Settings.color2, s);
     }
 
+    public void broadcastBuy (String permission, Object... s) {
+        broadcast(permission, Buy.Settings.color1, Buy.Settings.color2, s);
+    }
+
     public void printSell (CommandSender sender, Object... s) {
         print(sender, Sell.Settings.color1, Sell.Settings.color2, s);
     }
 
-    /**
-     * Send current message to log files
-     *
-     * @param s
-     * @return — always returns true.
-     * Examples:
-     * Message.ERROR_MESSAGE.log(variable1); // just print in log
-     * return Message.ERROR_MESSAGE.log(variable1); // print in log and return value true
-     */
+
     public boolean log(Object... s) {
         plugin.getLogger().info(getText(s));
         return true;
     }
 
-    /**
-     * Same as log, but will printout nothing if debug mode is disabled
-     *
-     * @param s
-     * @return — always returns true.
-     */
-    public boolean debug(Object... s) {
+    /*public boolean debug(Object... s) {
         if (debugMode) plugin.getLogger().info(TextFormat.clean(getText(s)));
         return true;
-    }
+    }*/
 
-
-
-    /**
-     * Send message to Player or to ConsoleSender
-     *
-     * @param sender
-     * @param s
-     * @return — always returns true.
-     */
     public boolean print(CommandSender sender, Object... s) {
         if (sender == null) return Message.LNG_PRINT_FAIL.log(this.name());
         sender.sendMessage(getText(s));
         return true;
     }
 
-    /**
-     * Send message to all players or to players with defined permission
-     *
-     * @param permission
-     * @param s
-     * @return — always returns true.
-     * <p>
-     * Examples:
-     * Message.MSG_BROADCAST.broadcast ("pluginname.broadcast"); // send message to all players with permission "pluginname.broadcast"
-     * Message.MSG_BROADCAST.broadcast (null); // send message to all players
-     */
     public boolean broadcast(String permission, Object... s) {
         for (Player player : plugin.getServer().getOnlinePlayers().values()) {
             if (permission == null || player.hasPermission(permission)) print(player, s);
@@ -199,30 +179,6 @@ public enum Message {
         return true;
     }
 
-    /**
-     * Get formated text.
-     *
-     * @param keys * Keys - are parameters for message and control-codes.
-     *             Parameters will be shown in position in original message according for position.
-     *             This keys are used in every method that prints or sends message.
-     *             <p>
-     *             Example:
-     *             <p>
-     *             EXAMPLE_MESSAGE ("Message with parameters: %1%, %2% and %3%");
-     *             Message.EXAMPLE_MESSAGE.getText("one","two","three"); //will return text "Message with parameters: one, two and three"
-     *             <p>
-     *             * Color codes
-     *             You can use two colors to define color of message, just use character symbol related for color.
-     *             <p>
-     *             Message.EXAMPLE_MESSAGE.getText("one","two","three",'c','4');  // this message will be red, but word one, two, three - dark red
-     *             <p>
-     *             * Control codes
-     *             Control codes are text parameteres, that will be ignored and don't shown as ordinary parameter
-     *             - "SKIPCOLOR" - use this to disable colorizing of parameters
-     *             - "NOCOLOR" (or "NOCOLORS") - return uncolored text, clear all colors in text
-     *             - "FULLFLOAT" - show full float number, by default it limit by two symbols after point (0.15 instead of 0.1483294829)
-     * @return
-     */
     public String getText(Object... keys) {
         char[] colors = new char[]{color1 == null ? c1 : color1, color2 == null ? c2 : color2};
         if (keys.length == 0) return TextFormat.colorize("&" + colors[0] + this.message);
@@ -268,9 +224,9 @@ public enum Message {
         return str;
     }
 
-    public String getCleanText (Object... keys) {
+    /*public String getCleanText (Object... keys) {
         return getText("NOCOLOR", keys);
-    }
+    }*/
 
     private void initMessage(String message) {
         this.message = message;
@@ -301,12 +257,6 @@ public enum Message {
         return this.getText("NOCOLOR");
     }
 
-    /**
-     * Initialize current class, load messages, etc.
-     * Call this file in onEnable method after initializing plugin configuration
-     *
-     * @param plg
-     */
     public static void init(PluginBase plg) {
         plugin = plg;
         language = plg.getConfig().getString("general.language", "default");
@@ -314,26 +264,21 @@ public enum Message {
         else if (language.length() > 3) language = language.substring(0, 3);
         //debugMode = plg.getConfig().getBoolean("general.debug-mode",false);
         //saveLanguage = plg.getConfig().getBoolean("general.save-translation",false);
-        debugMode = false;
+        //debugMode = false;
         saveLanguage = true;
 
         initMessages();
         if (saveLanguage) saveMessages();
-        LNG_CONFIG.debug(Message.values().length, language, true, debugMode);
+        //LNG_CONFIG.debug(Message.values().length, language, true, debugMode);
     }
 
-    /**
-     * Enable debugMode
-     *
-    // * @param //debug
-     */
-    public static void setDebugMode(boolean debug) {
+    /*public static void setDebugMode(boolean debug) {
         debugMode = debug;
-    }
+    }*/
 
-    public static boolean isDebug() {
+    /*public static boolean isDebug() {
         return debugMode;
-    }
+    }*/
 
 
     private static void initMessages() {
@@ -361,25 +306,16 @@ public enum Message {
             lng.save();
         } catch (Exception e) {
             LNG_SAVE_FAIL.log();
-            if (debugMode) e.printStackTrace();
+            //if (debugMode) e.printStackTrace();
         }
     }
 
-    /**
-     * Send message (formed using join method) to server log if debug mode is enabled
-     *
-     * @param s
-     */
-    public static boolean debugMessage(Object... s) {
+
+    /*public static boolean debugMessage(Object... s) {
         if (debugMode) plugin.getLogger().info(TextFormat.clean(join(s)));
         return true;
-    }
+    }*/
 
-    /**
-     * Join object array to string (separated by space)
-     *
-     * @param s
-     */
     public static String join(Object... s) {
         StringBuilder sb = new StringBuilder();
         for (Object o : s) {
@@ -389,12 +325,8 @@ public enum Message {
         return sb.toString();
     }
 
-    /**
-     * Print exception message, only if debug mode enabled
-     *
-     * @param exception
-     */
-    public static void debugException(Exception exception) {
+
+    /*public static void debugException(Exception exception) {
         if (debugMode) exception.printStackTrace();
-    }
+    }*/
 }

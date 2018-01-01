@@ -9,10 +9,7 @@ import ua.leonidius.trading.Main;
 import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.auction.BetCmd;
 import ua.leonidius.trading.auction.StartAuctionCmd;
-import ua.leonidius.trading.buy.AddBuyItemCmd;
-import ua.leonidius.trading.buy.Buy;
-import ua.leonidius.trading.buy.BuyCmd;
-import ua.leonidius.trading.buy.DelBuyItemCmd;
+import ua.leonidius.trading.buy.*;
 import ua.leonidius.trading.sell.AddSellItemCmd;
 import ua.leonidius.trading.sell.DelSellItemCmd;
 import ua.leonidius.trading.sell.Sell;
@@ -46,6 +43,10 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
                 sender.sendMessage(TextFormat.AQUA + abi.getUsage() + TextFormat.WHITE + " - " + abi.getDescription());
                 PluginCommand dbi = new DelBuyItemCmd();
                 sender.sendMessage(TextFormat.AQUA + dbi.getUsage() + TextFormat.WHITE + " - " + dbi.getDescription());
+                PluginCommand ad = new AddDiscountCmd();
+                sender.sendMessage(TextFormat.AQUA + ad.getUsage() + TextFormat.WHITE + " - " + ad.getDescription());
+                PluginCommand dd = new DelDiscountCmd();
+                sender.sendMessage(TextFormat.AQUA + dd.getUsage() + TextFormat.WHITE + " - " + dd.getDescription());
             }
         }
         if (Sell.Settings.active){
