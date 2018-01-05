@@ -3,27 +3,16 @@ package ua.leonidius.trading.buy;
 import cn.nukkit.Player;
 import cn.nukkit.inventory.PlayerInventory;
 import cn.nukkit.item.Item;
-import cn.nukkit.utils.Config;
 import me.onebone.economyapi.EconomyAPI;
 import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.ItemName;
 import ua.leonidius.trading.utils.MaxStackSize;
 import ua.leonidius.trading.utils.Message;
 
-import static ua.leonidius.trading.buy.Buy.Settings.countMaxAmount;
-
 /**
  * Created by Leonidius20 on 26.09.17.
  */
 public abstract class Buy {
-
-    public static class Settings {
-        public static boolean active = Main.getPlugin().getConfig().getBoolean("buy.active", true);
-        static boolean countMaxAmount = Main.getPlugin().getConfig().getBoolean("buy.count-max-amount", true);
-        static boolean editLogging = Main.getPlugin().getConfig().getBoolean("general.shopedit-logging", true);
-        public static char color1 = Main.getPlugin().getConfig().getString("buy.primary-color", "a").charAt(0);
-        public static char color2 = Main.getPlugin().getConfig().getString("buy.secondary-color", "2").charAt(0);
-    }
 
     static void buy (Player player, Item item){
         int amount = item.getCount();
@@ -43,33 +32,23 @@ public abstract class Buy {
         }
 
         if (!canAddItem(player, item)) {
-            if (Settings.countMaxAmount) {
-                amount = getMaxByInventory(player, item);
-                if (amount == 0) {
-                    Message.BUY_NO_SPACE.printError(player);
-                    return;
-                }
-                Message.BUY_NO_SPACE_MAX.printBuy(player, amount);
-            } else {
+            amount = getMaxByInventory(player, item);
+            if (amount == 0) {
                 Message.BUY_NO_SPACE.printError(player);
                 return;
             }
+            Message.BUY_NO_SPACE_MAX.print(player, amount);
         }
 
         double price = getPrice(item);
         double playerMoney = EconomyAPI.getInstance().myMoney(player);
         if (playerMoney < amount*price) {
-            if (Settings.countMaxAmount) {
-                amount = getMaxByMoney(player, item);
-                if (amount == 0) {
-                    Message.BUY_NOT_ENOUGH_MONEY.printError(player);
-                    return;
-                }
-                Message.BUY_NO_MONEY_MAX.printBuy(player, amount);
-            } else {
+            amount = getMaxByMoney(player, item);
+            if (amount == 0) {
                 Message.BUY_NOT_ENOUGH_MONEY.printError(player);
                 return;
             }
+            Message.BUY_NO_MONEY_MAX.print(player, amount);
         }
         double cost = amount*price;
         EconomyAPI.getInstance().reduceMoney(player, cost);
@@ -78,7 +57,7 @@ public abstract class Buy {
         int id = item.getId();
         int meta = item.getDamage();
         String name = ItemName.get(item);
-        Message.BUY_YOU_BOUGHT.printBuy(player, amount, name, id, meta, cost, Main.currency);
+        Message.BUY_YOU_BOUGHT.print(player, amount, name, id, meta, cost, Main.settings.currency);
     }
 
     private static boolean canBuy (Item item){
@@ -88,7 +67,7 @@ public abstract class Buy {
         return Main.buycfg.exists(key);
     }
 
-    private static double getPrice (Item item) {
+    public static double getPrice (Item item) {
         int id = item.getId();
         int meta = item.getDamage();
         String key = "b-"+id+"-"+meta;

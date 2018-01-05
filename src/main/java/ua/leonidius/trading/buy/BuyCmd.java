@@ -11,7 +11,7 @@ import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.Message;
 
 /**
- * Created by lion on 05.03.17.
+ * Created by Leonidius20 on 05.03.17.
  */
 public class BuyCmd extends PluginCommand implements CommandExecutor{
 

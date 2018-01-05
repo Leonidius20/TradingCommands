@@ -16,8 +16,10 @@ import ua.leonidius.trading.sell.Sell;
 import ua.leonidius.trading.sell.SellCmd;
 import ua.leonidius.trading.utils.Message;
 
+import static ua.leonidius.trading.Main.settings;
+
 /**
- * Created by lion on 21.03.17.
+ * Created by Leonidius20 on 21.03.17.
  */
 public class HelpCmd extends PluginCommand implements CommandExecutor {
 
@@ -33,7 +35,7 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        if (Buy.Settings.active) {
+        if (settings.buy_active) {
             PluginCommand buy = new BuyCmd();
             sender.sendMessage(TextFormat.AQUA + buy.getUsage() + TextFormat.WHITE + " - " + buy.getDescription());
             PluginCommand blist = new BuyListCmd();
@@ -49,7 +51,7 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
                 sender.sendMessage(TextFormat.AQUA + dd.getUsage() + TextFormat.WHITE + " - " + dd.getDescription());
             }
         }
-        if (Sell.Settings.active){
+        if (settings.sell_active){
             PluginCommand sell = new SellCmd();
             sender.sendMessage(TextFormat.AQUA+sell.getUsage()+TextFormat.WHITE+" - "+sell.getDescription());
             PluginCommand slist = new SellListCmd();
@@ -61,13 +63,13 @@ public class HelpCmd extends PluginCommand implements CommandExecutor {
                 sender.sendMessage(TextFormat.AQUA + dsi.getUsage() + TextFormat.WHITE + " - " + dsi.getDescription());
             }
         }
-        if (Auction.Settings.active) {
+        if (settings.auction_active) {
             PluginCommand auc = new StartAuctionCmd();
             sender.sendMessage(TextFormat.AQUA + auc.getUsage() + TextFormat.WHITE + " - " + auc.getDescription());
             PluginCommand bet = new BetCmd();
             sender.sendMessage(TextFormat.AQUA + bet.getUsage() + TextFormat.WHITE + " - " + bet.getDescription());
         }
-        if (Buy.Settings.active || Sell.Settings.active || Auction.Settings.active) {
+        if (settings.buy_active || settings.sell_active || settings.auction_active) {
             PluginCommand id = new IdCmd();
             sender.sendMessage(TextFormat.AQUA + id.getUsage() + TextFormat.WHITE + " - " + id.getDescription());
         }

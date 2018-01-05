@@ -1,22 +1,10 @@
 buy:
-  #Turn on/off buying system (buy, addbuyitem, delbuyitem commands)
+  #Turn on/off buying system (buy, addbuyitem, delbuyitem, adddiscount, deldiscount commands)
   active: true
-  #If there is not enough money or space in inventory, buy max possible amount (true) or cancel buying (false)
-  count-max-amount: true
-  #Primary color of messages
-  primary-color: a
-  #Secondary color of messages
-  secondary-color: 2
 
 sell:
   #Turn on/off selling system (sell, addsellitem, delsellitem commands)
   active: true
-  #If there is not enough items, sell max possible amount (true) or cancel selling (false)
-  count-max-amount: true
-  #Primary color of messages
-  primary-color: a
-  #Secondary color of messages
-  secondary-color: 2
 
 auction:
   #Turn on/off auction system (auc, bet commands)
@@ -26,19 +14,17 @@ auction:
   #Periodicity of notifications about the ongoing auction
   notify-period: 60000
   #Price for starting an auction (set 0 to turn it off)
-  tax: 50
+  start-tax: 50
   #End tax in percents (tax is taken from the final bid)
   end-tax: 1
+
+
+general:
+  #Plugin language. if <default> - server language will be used. If there is no translation in your language, there will be created a file called <your_lang>.lng with all strings in English. You'll have to translate them.
+  language: default
   #Primary color of messages
   primary-color: a
   #Secondary color of messages
   secondary-color: 2
-
-general:
-  #Plugin language. Default - use server language, eng and rus are supported. You can use your own lang file
-  language: default
-  #Saving info about editing item lists in log
-  shopedit-logging: true
-  #Do not touch this
-  debug-mode: false
-  save-translation: true
+  #If true, a file with all strings will be created. You can edit the strings.
+  save-translation: false

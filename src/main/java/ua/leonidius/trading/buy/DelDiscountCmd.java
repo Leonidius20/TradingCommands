@@ -53,10 +53,8 @@ public class DelDiscountCmd extends PluginCommand implements CommandExecutor {
         config.save();
         config.reload();
 
-        Message.LIST_DISCOUNT_REMOVED_BY_PLAYER.broadcastBuy(null, sender.getName(), item.getName(), id, meta);
-        if (Buy.Settings.editLogging) {
-            Message.LIST_DISCOUNT_REMOVED_BY_PLAYER.log("NOCOLOR", sender.getName(), item.getName(), id, meta);
-        }
+        Message.LIST_DISCOUNT_REMOVED_BY_PLAYER.broadcast(null, sender.getName(), item.getName(), id, meta);
+        Message.LIST_DISCOUNT_REMOVED_BY_PLAYER.log("NOCOLOR", sender.getName(), item.getName(), id, meta);
         return true;
     }
 }

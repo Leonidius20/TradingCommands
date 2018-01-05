@@ -72,10 +72,8 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         config.reload();
 
         if (args.length == 2) {
-            Message.LIST_DISCOUNT_ADDED_LOG.broadcastBuy(null, sender.getName(), percent, name, id, meta);
-            if (Buy.Settings.editLogging) {
-                Message.LIST_DISCOUNT_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta);
-            }
+            Message.LIST_DISCOUNT_ADDED_LOG.broadcast(null, sender.getName(), percent, name, id, meta);
+            Message.LIST_DISCOUNT_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta);
             return true;
         }
 
@@ -85,16 +83,14 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
             class StopDiscount implements Runnable {
                 public void run() {
                     if (config.exists(key)) config.remove(key);
-                    Message.LIST_DISCOUNT_REMOVED.broadcastBuy (null, name, id, meta);
+                    Message.LIST_DISCOUNT_REMOVED.broadcast(null, name, id, meta);
                 }
             }
             Main.getPlugin().getServer().getScheduler().scheduleDelayedTask(Main.getPlugin(), new StopDiscount(), duration*86400000);
             Date date = new Date(duration*86400000);
             SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss");
-            Message.LIST_DISCOUNT_TEMP_ADDED_LOG.broadcastBuy(null, sender.getName(), percent, name, id, meta, sdf.format(date));
-            if (Buy.Settings.editLogging) {
-                Message.LIST_DISCOUNT_TEMP_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta, sdf.format(date));
-            }
+            Message.LIST_DISCOUNT_TEMP_ADDED_LOG.broadcast(null, sender.getName(), percent, name, id, meta, sdf.format(date));
+            Message.LIST_DISCOUNT_TEMP_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta, sdf.format(date));
         }
 
         return true;

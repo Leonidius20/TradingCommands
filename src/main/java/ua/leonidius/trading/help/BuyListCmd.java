@@ -4,17 +4,21 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandExecutor;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
+import cn.nukkit.item.Item;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import ua.leonidius.trading.Main;
+import ua.leonidius.trading.buy.Buy;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
 import java.util.Iterator;
 import java.util.Set;
 
+import static ua.leonidius.trading.Main.settings;
+
 /**
- * Created by lion on 04.03.17.
+ * Created by Leonidius20 on 04.03.17.
  */
 public class BuyListCmd extends PluginCommand implements CommandExecutor{
 
@@ -52,12 +56,25 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
                         int id = Integer.parseInt(idmeta[1]);
                         int meta = Integer.parseInt(idmeta[2]);
                         String name = ItemName.get(id, meta);
-                        String price = cfg.getString(key);
-                        output = output+" "+TextFormat.YELLOW+name+TextFormat.WHITE+" ("+id+":"+meta+")"+" - "+TextFormat.GREEN+price+TextFormat.WHITE+",";
+                        double price = Buy.getPrice(Item.get(id, meta));
+                        String discountKey = "d-"+id+"-"+meta;
+                        if (Main.discountCfg.exists(discountKey)) {
+                            double discount = Main.discountCfg.getDouble(discountKey);
+                            output = output+" "+TextFormat.YELLOW+name
+                                    +TextFormat.WHITE+" ("+id+":"+meta+")"+" - "
+                                    +TextFormat.GREEN+price+" "
+                                    +Message.SALE.getText(discount, 'c', 'c')
+                                    +TextFormat.WHITE+",";
+                        } else {
+                            output = output + " " + TextFormat.YELLOW + name
+                                    + TextFormat.WHITE + " (" + id + ":" + meta + ")" + " - "
+                                    + TextFormat.GREEN + price
+                                    + TextFormat.WHITE + ",";
+                        }
                     } catch (NumberFormatException e) {}
                 }
             }
-            output = output +" "+Message.LIST_PRICES_IN.getText(Main.currency, "NOCOLOR");
+            output = output +" "+Message.LIST_PRICES_IN.getText(settings.currency, "NOCOLOR");
             sender.sendMessage(output);
         } else {
             Message.LIST_NOTHING.print(sender, "NOCOLOR");

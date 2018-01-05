@@ -7,13 +7,11 @@ package ua.leonidius.trading.utils;
     import cn.nukkit.plugin.PluginBase;
     import cn.nukkit.utils.Config;
     import cn.nukkit.utils.TextFormat;
-    import ua.leonidius.trading.auction.Auction;
-    import ua.leonidius.trading.buy.Buy;
-    import ua.leonidius.trading.sell.Sell;
-
     import java.io.File;
     import java.io.InputStream;
     import java.text.DecimalFormat;
+
+    import static ua.leonidius.trading.Main.settings;
 
 
 public enum Message {
@@ -29,7 +27,6 @@ public enum Message {
 
     SELL_NOT_SELLING ("You cannot sell this item."),
     SELL_YOU_SOLD ("You have sold %1%x %2% (%3%:%4%) for %5%%6%."),
-    //SOLD_LOG ("Player %1% has sold %2%x %3% (%4%:%5%) for %6%%7%."),
     SELL_LESS_THAN_ONE ("You cannot sell less than one item."),
     SELL_NO_ITEM ("You have no items to sell."),
     SELL_NO_ITEM_MAX ("Not enough items, max amount will be sold (%1%)."),
@@ -39,7 +36,6 @@ public enum Message {
     BUY_LESS_THAN_ONE ("You cannot buy less than one item."),
     BUY_NOT_ENOUGH_MONEY ("Not enough money."),
     BUY_YOU_BOUGHT ("You have bought %1%x %2% (%3%:%4%) for %5%%6%."),
-    //BOUGHT_LOG ("Player %1% has bought %2%x %2% (%4%:%5%) for %6%$."),
     BUY_NO_SPACE ("Not enough space in your inventory."),
     BUY_NO_SPACE_MAX ("Not enough space in your inventory, max amount will be purchased (%1%)."),
     BUY_NO_MONEY_MAX ("Not enough money, max amount will be purchased (%1%)."),
@@ -73,6 +69,7 @@ public enum Message {
     START_PRICE ("start price"),
     PERCENT ("percent"),
     DURATION("duration (days)"),
+    SALE ("(%1%% sale!)"),
 
     CMD_ID ("Shows ID of an item in your hand."),
     CMD_BUY ("Buy items."),
@@ -103,7 +100,6 @@ public enum Message {
     AUC_RUNNING ("Auction is running. Wait for its ending."),
     AUC_NEW_BID ("Player %1% has bet %2%%3%"),
     AUC_NOT_RUNNING ("There is no auction now."),
-    //AUC_DURATION ("Auction duration - %1%."),
     AUC_NOT_ENOUGH_MONEY ("Not enough money to pay auction tax (%1%%2%)."),
     AUC_YOUR ("You cannot bet on your own auction."),
     AUC_CREATIVE ("You cannot start an auction while you are in creative mode."),
@@ -112,64 +108,34 @@ public enum Message {
 
     INCORRECT_PARAMS ("Incorrect parameters.");
 
-
-    //private static boolean debugMode = false;
     private static String language = "english";
-    private static char c1 = 'a';
-    private static char c2 = '2';
+    private static char c1; //= 'a';
+    private static char c2; //= '2';
     private static boolean saveLanguage = false;
 
     private static PluginBase plugin = null;
-
-    //Сообщения в цветах аукциона
-    public void printAuc (CommandSender sender, Object... s) {
-        print(sender, Auction.Settings.color1, Auction.Settings.color2, s);
-    }
-
-    public void broadcastAuc (String permission, Object... s) {
-        broadcast(permission, Auction.Settings.color1, Auction.Settings.color2, s);
-    }
-
-    public void sendTipAuc (Player player, Object... s) {
-        player.sendTip(getText(Auction.Settings.color1, Auction.Settings.color2, s));
-    }
-
-    public void sendPopupAuc (Player player, Object... s) {
-        player.sendPopup(getText(Auction.Settings.color1, Auction.Settings.color2, s));
-    }
-
-    public void printError (CommandSender sender, Object... s) {
-        print(sender, 'c', s);
-    }
-
-    //
-    public void printBuy (CommandSender sender, Object... s) {
-        print(sender, Buy.Settings.color1, Buy.Settings.color2, s);
-    }
-
-    public void broadcastBuy (String permission, Object... s) {
-        broadcast(permission, Buy.Settings.color1, Buy.Settings.color2, s);
-    }
-
-    public void printSell (CommandSender sender, Object... s) {
-        print(sender, Sell.Settings.color1, Sell.Settings.color2, s);
-    }
-
 
     public boolean log(Object... s) {
         plugin.getLogger().info(getText(s));
         return true;
     }
 
-    /*public boolean debug(Object... s) {
-        if (debugMode) plugin.getLogger().info(TextFormat.clean(getText(s)));
-        return true;
-    }*/
-
     public boolean print(CommandSender sender, Object... s) {
         if (sender == null) return Message.LNG_PRINT_FAIL.log(this.name());
         sender.sendMessage(getText(s));
         return true;
+    }
+
+    public void printError(CommandSender sender, Object... s) {
+        print (sender, s, 'c');
+    }
+
+    public void tip (Player player, Object... s) {
+        if (player!=null) player.sendTip(getText(s));
+    }
+
+    public void popup (Player player, Object... s) {
+        if (player!=null) player.sendPopup(getText(s));
     }
 
     public boolean broadcast(String permission, Object... s) {
@@ -224,10 +190,6 @@ public enum Message {
         return str;
     }
 
-    /*public String getCleanText (Object... keys) {
-        return getText("NOCOLOR", keys);
-    }*/
-
     private void initMessage(String message) {
         this.message = message;
     }
@@ -259,27 +221,16 @@ public enum Message {
 
     public static void init(PluginBase plg) {
         plugin = plg;
-        language = plg.getConfig().getString("general.language", "default");
+        language = settings.language;
         if (language.equalsIgnoreCase("default")) language = Server.getInstance().getLanguage().getLang();
         else if (language.length() > 3) language = language.substring(0, 3);
-        //debugMode = plg.getConfig().getBoolean("general.debug-mode",false);
-        //saveLanguage = plg.getConfig().getBoolean("general.save-translation",false);
-        //debugMode = false;
-        saveLanguage = true;
+        saveLanguage = settings.save_translation;
 
         initMessages();
         if (saveLanguage) saveMessages();
-        //LNG_CONFIG.debug(Message.values().length, language, true, debugMode);
+        c1 = settings.primary_color.charAt(0);
+        c2 = settings.secondary_color.charAt(0);
     }
-
-    /*public static void setDebugMode(boolean debug) {
-        debugMode = debug;
-    }*/
-
-    /*public static boolean isDebug() {
-        return debugMode;
-    }*/
-
 
     private static void initMessages() {
         File f = new File(plugin.getDataFolder() + File.separator + language + ".lng");
@@ -306,27 +257,16 @@ public enum Message {
             lng.save();
         } catch (Exception e) {
             LNG_SAVE_FAIL.log();
-            //if (debugMode) e.printStackTrace();
         }
     }
 
-
-    /*public static boolean debugMessage(Object... s) {
-        if (debugMode) plugin.getLogger().info(TextFormat.clean(join(s)));
-        return true;
-    }*/
-
-    public static String join(Object... s) {
+    /*public static String join(Object... s) {
         StringBuilder sb = new StringBuilder();
         for (Object o : s) {
             if (sb.length() > 0) sb.append(" ");
             sb.append(o.toString());
         }
         return sb.toString();
-    }
-
-
-    /*public static void debugException(Exception exception) {
-        if (debugMode) exception.printStackTrace();
     }*/
+
 }

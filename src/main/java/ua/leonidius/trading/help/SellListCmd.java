@@ -6,7 +6,7 @@ import ua.leonidius.trading.help.BuyListCmd;
 import ua.leonidius.trading.utils.Message;
 
 /**
- * Created by lion on 21.03.17.
+ * Created by Leonidius20 on 21.03.17.
  */
 public class SellListCmd extends PluginCommand {
 

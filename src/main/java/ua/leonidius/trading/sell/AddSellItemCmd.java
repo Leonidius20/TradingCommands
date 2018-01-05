@@ -12,8 +12,10 @@ import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
+import static ua.leonidius.trading.Main.settings;
+
 /**
- * Created by lion on 05.03.17.
+ * Created by Leonidius20 on 05.03.17.
  */
 public class AddSellItemCmd extends PluginCommand implements CommandExecutor{
 
@@ -57,11 +59,9 @@ public class AddSellItemCmd extends PluginCommand implements CommandExecutor{
         config.set(key, price);
         config.save();
         config.reload();
-        Message.LIST_SELL_ADDED.printSell(sender, name, id, meta, price, Main.currency);
-        if (Sell.Settings.editLogging) {
-            Message.LIST_SELL_ADDED_LOG.log(sender.getName(), name, id, meta, price, Main.currency, "NOCOLOR");
-        }
-        Message.LIST_SELL_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price, Main.currency);
+        Message.LIST_SELL_ADDED.print(sender, name, id, meta, price, settings.currency);
+        Message.LIST_SELL_ADDED_LOG.log(sender.getName(), name, id, meta, price, settings.currency, "NOCOLOR");
+        Message.LIST_SELL_ADDED_LOG.broadcast("trading.editshoplist", '7', '7', sender.getName(), name, id, meta, price, settings.currency);
         return true;
     }
 }

@@ -13,14 +13,6 @@ import ua.leonidius.trading.utils.Message;
  */
 public abstract class Sell {
 
-    public static class Settings {
-        public static boolean active = Main.getPlugin().getConfig().getBoolean("sell.active", true);
-        private static boolean countMaxAmount = Main.getPlugin().getConfig().getBoolean("sell.count-max-amount", true);
-        static boolean editLogging = Main.getPlugin().getConfig().getBoolean("general.shopedit-logging", true);
-        public static char color1 = Main.getPlugin().getConfig().getString("sell.primary-color", "a").charAt(0);
-        public static char color2 = Main.getPlugin().getConfig().getString("sell.secondary-color", "2").charAt(0);
-    }
-
     static void sellFromHand (Player player, Item item, int slot){
         int id = item.getId();
         int meta = item.getDamage();
@@ -42,7 +34,7 @@ public abstract class Sell {
         double cost = price*amount;
         player.getInventory().clear(slot);
         EconomyAPI.getInstance().addMoney(player, cost);
-        Message.SELL_YOU_SOLD.printSell(player, amount, name, id, meta, cost, Main.currency);
+        Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
 
     }
 
@@ -67,17 +59,13 @@ public abstract class Sell {
         }
 
         if (!player.getInventory().contains(item)) {
-            if (Settings.countMaxAmount) {
-                amount = getItemCount(player, item);
-                if (amount == 0) {
-                    Message.SELL_NO_ITEM.printError(player);
-                    return;
-                }
-                Message.SELL_NO_ITEM_MAX.printSell(player, amount);
-            } else {
+            amount = getItemCount(player, item);
+            if (amount == 0) {
                 Message.SELL_NO_ITEM.printError(player);
                 return;
             }
+            Message.SELL_NO_ITEM_MAX.print(player, amount);
+
         }
 
         double price = Main.sellcfg.getDouble(key);
@@ -86,7 +74,7 @@ public abstract class Sell {
         player.getInventory().removeItem(item);
         EconomyAPI.getInstance().addMoney(player, cost);
 
-        Message.SELL_YOU_SOLD.printSell(player, amount, name, id, meta, cost, Main.currency);
+        Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
     }
 
     public static int getItemCount(Player player, Item item){

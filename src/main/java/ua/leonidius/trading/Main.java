@@ -3,8 +3,6 @@ package ua.leonidius.trading;
 import cn.nukkit.command.SimpleCommandMap;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
-import me.onebone.economyapi.EconomyAPI;
-import ua.leonidius.trading.auction.Auction;
 import ua.leonidius.trading.auction.BetCmd;
 import ua.leonidius.trading.auction.StartAuctionCmd;
 import ua.leonidius.trading.buy.*;
@@ -12,16 +10,16 @@ import ua.leonidius.trading.help.BuyListCmd;
 import ua.leonidius.trading.help.*;
 import ua.leonidius.trading.sell.AddSellItemCmd;
 import ua.leonidius.trading.sell.DelSellItemCmd;
-import ua.leonidius.trading.sell.Sell;
 import ua.leonidius.trading.sell.SellCmd;
 import ua.leonidius.trading.help.SellListCmd;
 import ua.leonidius.trading.utils.Message;
+import ua.leonidius.trading.utils.Settings;
 
 import java.io.File;
 
 
 /**
- * Created by lion on 01.03.17.
+ * Created by Leonidius20 on 01.03.17.
  */
 
 
@@ -34,8 +32,7 @@ public class Main extends PluginBase {
     public static Config buycfg;
     public static Config discountCfg;
     public static Config sellcfg;
-
-    public static String currency = EconomyAPI.getInstance().getMonetaryUnit();
+    public static Settings settings;
 
     //public static String plgname;
 
@@ -52,6 +49,9 @@ public class Main extends PluginBase {
         this.saveResource("config.yml");
         this.saveResource("buy.yml");
         this.saveResource("sell.yml");
+        this.saveResource("discount.yml");
+        settings = new Settings(this);
+        settings.load();
         buycfg = new Config(new File(getDataFolder(), "buy.yml"));
         sellcfg = new Config(new File(getDataFolder(), "sell.yml"));
         discountCfg = new Config (new File(getDataFolder(), "discount.yml"));
@@ -60,7 +60,7 @@ public class Main extends PluginBase {
     private void initCmd(){
         SimpleCommandMap cm = this.getServer().getCommandMap();
         String prefix = "Shop";
-        if (Buy.Settings.active) {
+        if (settings.buy_active) {
             cm.register(prefix, new BuyCmd());
             cm.register(prefix, new AddBuyItemCmd());
             cm.register(prefix, new DelBuyItemCmd());
@@ -68,17 +68,17 @@ public class Main extends PluginBase {
             cm.register(prefix, new AddDiscountCmd());
             cm.register(prefix, new DelDiscountCmd());
         }
-        if (Sell.Settings.active) {
+        if (settings.sell_active) {
             cm.register(prefix, new SellCmd());
             cm.register(prefix, new AddSellItemCmd());
             cm.register(prefix, new DelSellItemCmd());
             cm.register(prefix, new SellListCmd());
         }
-        if (Auction.Settings.active){
+        if (settings.auction_active){
             cm.register(prefix, new StartAuctionCmd());
             cm.register(prefix, new BetCmd());
         }
-        if (Buy.Settings.active || Sell.Settings.active || Auction.Settings.active) {
+        if (settings.buy_active || settings.sell_active || settings.auction_active) {
             cm.register(prefix, new IdCmd());
             cm.register(prefix, new HelpCmd());
         }

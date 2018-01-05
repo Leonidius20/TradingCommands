@@ -3,7 +3,7 @@ package ua.leonidius.trading.utils;
 import cn.nukkit.item.Item;
 
 /**
- * Created by lion on 11.03.17.
+ * Created by Leonidius20 on 11.03.17.
  */
 public class ItemName {
     public static String get(int id, int meta){

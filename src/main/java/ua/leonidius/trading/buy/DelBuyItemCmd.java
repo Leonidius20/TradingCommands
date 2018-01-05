@@ -13,7 +13,7 @@ import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
 
 /**
- * Created by lion on 05.03.17.
+ * Created by Leonidius20 on 05.03.17.
  */
 public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
 
@@ -50,10 +50,8 @@ public class DelBuyItemCmd extends PluginCommand implements CommandExecutor{
             config.remove(key);
             config.save();
             config.reload();
-            Message.LIST_BUY_DELETED.printBuy(sender, name, id, meta);
-            if (Buy.Settings.editLogging) {
-                Message.LIST_BUY_DELETED_LOG.log(sender.getName(), name, id, meta, "NOCOLOR");
-            }
+            Message.LIST_BUY_DELETED.print(sender, name, id, meta);
+            Message.LIST_BUY_DELETED_LOG.log(sender.getName(), name, id, meta, "NOCOLOR");
             Message.LIST_BUY_DELETED_LOG.broadcast("trading.editshoplist", '7','7', sender.getName(), name, id, meta);
         } else Message.LIST_DOESNOT_EXIST.printError(sender);
         return true;
