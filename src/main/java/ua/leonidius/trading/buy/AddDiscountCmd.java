@@ -32,13 +32,13 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         CommandParameter [] cps = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
                 new CommandParameter(percent, CommandParameter.ARG_TYPE_INT, false),
-                new CommandParameter(duration, CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(duration, CommandParameter.ARG_TYPE_RAW_TEXT, true)
         };
         getCommandParameters().put("string", cps);
         CommandParameter [] cp = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_STRING, false),
                 new CommandParameter(percent, CommandParameter.ARG_TYPE_INT, false),
-                new CommandParameter(duration, CommandParameter.ARG_TYPE_INT, true)
+                new CommandParameter(duration, CommandParameter.ARG_TYPE_RAW_TEXT, true)
         };
         getCommandParameters().put("default", cp);
     }
@@ -51,6 +51,11 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         if (id==0) return false;
         final int meta = item.getDamage();
         final String name = ItemName.get(item);
+
+        if (!Main.buycfg.exists("b-"+id+"-"+meta)) {
+            Message.SELL_NOT_SELLING.printError(sender);
+            return true;
+        }
 
         int percent;
         try {
@@ -78,17 +83,26 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         }
 
         if (args.length == 3) {
-            int duration;
-            try {duration = Integer.parseInt(args[2]);} catch (Exception e) {return false;}
+            //TODO: Fix discount duration and time formatting.
+            double duration;
+            try {duration = Double.parseDouble(args[2]);} catch (Exception e) {return false;}
             class StopDiscount implements Runnable {
                 public void run() {
                     if (config.exists(key)) config.remove(key);
                     Message.LIST_DISCOUNT_REMOVED.broadcast(null, name, id, meta);
                 }
             }
-            Main.getPlugin().getServer().getScheduler().scheduleDelayedTask(Main.getPlugin(), new StopDiscount(), duration*86400000);
-            Date date = new Date(duration*86400000);
-            SimpleDateFormat sdf = new SimpleDateFormat("H:mm:ss");
+            //scheduleDelayedTask takes seconds as a delay, Date class takes milliseconds (but i'm not sure)
+            Main.getPlugin().getServer().getScheduler().scheduleDelayedTask(Main.getPlugin(), new StopDiscount(), (int)Math.round(duration*86400));
+            Date date = new Date(Math.round(duration*86400000));
+            String days = Message.DAYS.toString();
+            String hours = Message.HOURS.toString();
+            String minutes = Message.MINUTES.toString();
+            String seconds = Message.SECONDS.toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("d"+" "+"'"+days+"'"+" "
+                    +"H"+" "+"'"+hours+"'"+" "+
+            "mm"+" "+"'"+minutes+"'"+" "
+            +"ss"+" "+"'"+seconds+"'");
             Message.LIST_DISCOUNT_TEMP_ADDED_LOG.broadcast(null, sender.getName(), percent, name, id, meta, sdf.format(date));
             Message.LIST_DISCOUNT_TEMP_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta, sdf.format(date));
         }

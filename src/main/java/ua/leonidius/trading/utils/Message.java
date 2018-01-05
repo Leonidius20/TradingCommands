@@ -70,6 +70,10 @@ public enum Message {
     PERCENT ("percent"),
     DURATION("duration (days)"),
     SALE ("(%1%% sale!)"),
+    DAYS ("days"),
+    HOURS ("hours"),
+    MINUTES ("minutes"),
+    SECONDS ("seconds"),
 
     CMD_ID ("Shows ID of an item in your hand."),
     CMD_BUY ("Buy items."),

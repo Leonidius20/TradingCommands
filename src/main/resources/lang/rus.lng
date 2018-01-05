@@ -48,6 +48,10 @@ start_price: стартовая цена
 percent: процент
 duration: продолжительность (дни)
 sale: (скидка %1%%!)
+days: дней
+hours: часов
+minutes: минут
+seconds: секунд
 
 cmd_id: Показывает ID предмета в руках.
 cmd_buy: Покупка предметов.

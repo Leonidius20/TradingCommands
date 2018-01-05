@@ -36,12 +36,15 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
         String output;
         Config cfg;
+        boolean isCmdBuyList;
         if (command == Main.getPlugin().getCommand("buylist")){
             output = Message.LIST_CAN_BUY.toString();
             cfg = Main.buycfg;
+            isCmdBuyList = true;
         } else if (command == Main.getPlugin().getCommand("selllist")){
             output = Message.LIST_CAN_SELL.toString();
             cfg = Main.sellcfg;
+            isCmdBuyList = false;
         } else {
             return false;
         }
@@ -58,12 +61,12 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
                         String name = ItemName.get(id, meta);
                         double price = Buy.getPrice(Item.get(id, meta));
                         String discountKey = "d-"+id+"-"+meta;
-                        if (Main.discountCfg.exists(discountKey)) {
+                        if (isCmdBuyList && Main.discountCfg.exists(discountKey)) {
                             double discount = Main.discountCfg.getDouble(discountKey);
                             output = output+" "+TextFormat.YELLOW+name
                                     +TextFormat.WHITE+" ("+id+":"+meta+")"+" - "
                                     +TextFormat.GREEN+price+" "
-                                    +Message.SALE.getText(discount, 'c', 'c')
+                                    +TextFormat.RED+Message.SALE.getText(discount, "NOCOLOR")
                                     +TextFormat.WHITE+",";
                         } else {
                             output = output + " " + TextFormat.YELLOW + name

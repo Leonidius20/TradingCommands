@@ -9,9 +9,9 @@ sell:
 auction:
   #Turn on/off auction system (auc, bet commands)
   active: true
-  #Auction duration
+  #Auction duration in milliseconds
   duration: 300000
-  #Periodicity of notifications about the ongoing auction
+  #Periodicity of notifications about the ongoing auction (in milliseconds)
   notify-period: 60000
   #Price for starting an auction (set 0 to turn it off)
   start-tax: 50
