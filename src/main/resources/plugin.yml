@@ -3,13 +3,10 @@ main: ua.leonidius.trading.Main
 version: 1.0.0
 author: Leonidius20
 api: ["1.0.0"]
-description: Trading and auction commands for EconomyAPI.
+description: Shop and auction system, based on commands.
 depend:
 - EconomyAPI
 permissions:
   trading.editshoplist:
     description: Editing shop lists
-    default: op
-  trading.editdiscounts:
-    description: Editing discounts
     default: op

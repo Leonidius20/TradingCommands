@@ -32,19 +32,21 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
         CommandParameter [] cps = new CommandParameter[]{
                 new CommandParameter("id", false, CommandParameter.ENUM_TYPE_ITEM_LIST),
                 new CommandParameter(percent, CommandParameter.ARG_TYPE_INT, false),
-                new CommandParameter(duration, CommandParameter.ARG_TYPE_RAW_TEXT, true)
+                new CommandParameter(duration, CommandParameter.ARG_TYPE_INT, true),
+                new CommandParameter("s/m/h/d", CommandParameter.ARG_TYPE_STRING, true)
         };
         getCommandParameters().put("string", cps);
         CommandParameter [] cp = new CommandParameter[]{
                 new CommandParameter("id:meta", CommandParameter.ARG_TYPE_STRING, false),
                 new CommandParameter(percent, CommandParameter.ARG_TYPE_INT, false),
-                new CommandParameter(duration, CommandParameter.ARG_TYPE_RAW_TEXT, true)
+                new CommandParameter(duration, CommandParameter.ARG_TYPE_INT, true),
+                new CommandParameter("s/m/h/d", CommandParameter.ARG_TYPE_STRING, true)
         };
         getCommandParameters().put("default", cp);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (args.length < 2) return false;
+        if (args.length < 2 || args.length==3) return false;
 
         Item item = Item.fromString(args[0]);
         final int id = item.getId();
@@ -62,6 +64,10 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
             percent = Integer.parseInt(args[1]);
         } catch (Exception e) {
             return false;
+        }
+        if (percent > 100) {
+            Message.LIST_DISCOUNT_MORE_THAN_HUNDRED.printError(sender);
+            return true;
         }
 
         final Config config = Main.discountCfg;
@@ -82,27 +88,31 @@ public class AddDiscountCmd extends PluginCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 3) {
-            //TODO: Fix discount duration and time formatting.
-            double duration;
-            try {duration = Double.parseDouble(args[2]);} catch (Exception e) {return false;}
+        if (args.length == 4) {
+            int value;
+            try {
+                value = Integer.parseInt(args[2]);
+            } catch (Exception e) {return false;}
+            //duration in seconds
+            int duration;
+            char letter = args[3].charAt(0);
+            if (letter=='s') duration = value;
+            //1 minute = 60 seconds
+            else if (letter=='m') duration = value*60;
+            //1 hour = 3600 seconds
+            else if (letter=='h') duration = value*3600;
+            //1 day = 86400 seconds
+            else duration = value*86400;
+            Date date = new Date(duration*1000);
             class StopDiscount implements Runnable {
                 public void run() {
                     if (config.exists(key)) config.remove(key);
                     Message.LIST_DISCOUNT_REMOVED.broadcast(null, name, id, meta);
                 }
             }
-            //scheduleDelayedTask takes seconds as a delay, Date class takes milliseconds (but i'm not sure)
-            Main.getPlugin().getServer().getScheduler().scheduleDelayedTask(Main.getPlugin(), new StopDiscount(), (int)Math.round(duration*86400));
-            Date date = new Date(Math.round(duration*86400000));
-            String days = Message.DAYS.toString();
-            String hours = Message.HOURS.toString();
-            String minutes = Message.MINUTES.toString();
-            String seconds = Message.SECONDS.toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("d"+" "+"'"+days+"'"+" "
-                    +"H"+" "+"'"+hours+"'"+" "+
-            "mm"+" "+"'"+minutes+"'"+" "
-            +"ss"+" "+"'"+seconds+"'");
+            Main.getPlugin().getServer().getScheduler().scheduleDelayedTask(Main.getPlugin(), new StopDiscount(), (int)date.getTime());
+            //TODO: Fix date formatting
+            SimpleDateFormat sdf = new SimpleDateFormat("dd:hh:mm:ss");
             Message.LIST_DISCOUNT_TEMP_ADDED_LOG.broadcast(null, sender.getName(), percent, name, id, meta, sdf.format(date));
             Message.LIST_DISCOUNT_TEMP_ADDED_LOG.log("NOCOLOR", sender.getName(), percent, name, id, meta, sdf.format(date));
         }

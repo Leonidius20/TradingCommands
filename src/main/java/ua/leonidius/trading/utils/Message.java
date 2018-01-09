@@ -52,9 +52,9 @@ public enum Message {
     LIST_SELL_ADDED ("Now you can sell %1% (%2%:%3%) for %4%%5% per each."),
     LIST_SELL_ADDED_LOG ("Player %1% has added %2% (%3%:%4%) to selling list for %5%%6% per each."),
 
-    LIST_DISCOUNT_ADDED_LOG ("Player %1% has added %2% percent discount on %3% (%4%:%5%)."),
-    LIST_DISCOUNT_TEMP_ADDED_LOG ("Player %1% has added %2% percent discount on %3% (%4%:%5%) for %6%."),
-
+    LIST_DISCOUNT_ADDED_LOG ("Player %1% has added %2%% discount on %3% (%4%:%5%)."),
+    LIST_DISCOUNT_TEMP_ADDED_LOG ("Player %1% has added %2%% discount on %3% (%4%:%5%) for %6%."),
+    LIST_DISCOUNT_MORE_THAN_HUNDRED ("You can't establish more than 100% discount."),
     LIST_DISCOUNT_REMOVED_BY_PLAYER ("Player %1% has removed the discount on %2% (%3%:%4%)."),
     LIST_DISCOUNT_REMOVED ("The discount on %1% (%2%:%3%) was removed."),
 
@@ -91,10 +91,10 @@ public enum Message {
     CMD_DELDISCOUNT ("Remove a discount on an item."),
 
     AUC_START ("Auction has been started! On sale - %1%x %2% (%3%:%4%), start price - %5%%6%, seller - %7%, duration - %8%."),
+    AUC_BID_RETURNED ("Your bid was beaten. Your money were returned."),
 
     AUC_TAX_TAKEN ("The start tax has been taken! (%1%%2%)"),
     AUC_NOTIFICATION ("On auction - %1%x %2% (%3%:%4%), current bid - %5%%6%, time left - %7%"),
-    AUC_TIME_LEFT ("Time left - %1%"),
     AUC_SMALLBET ("Your bid must be greater than the current one for one %1%."),
     AUC_FINISHED_WINNER ("Auction has been finished! Winner - %1%."),
     AUC_FINISHED_NOWINNER ("Auction has finished. There were no participants."),
@@ -108,9 +108,9 @@ public enum Message {
     AUC_YOUR ("You cannot bet on your own auction."),
     AUC_CREATIVE ("You cannot start an auction while you are in creative mode."),
     AUC_WINNER_NO_SPACE ("Auction winner has no free space in his inventory. The lot and the tax were returned."),
-    AUC_YOU_WON_NO_SPACE ("You won the auction, but there is not enough space in your inventory. The bid were returned."),
-
-    INCORRECT_PARAMS ("Incorrect parameters.");
+    AUC_YOU_WON_NO_SPACE ("You won the auction, but there is not enough space in your inventory. The bid was returned."),
+    AUC_NO_SPACE_FOR_RETURNING_COMPENSATION ("The lot had to be returned to you, but there is no free space in your inventory. You've been paid a compensation (%1%%2%)."),
+    AUC_NO_SPACE_FOR_RETURNING ("The lot had to be returned to you, but there is no free space in your inventory.");
 
     private static String language = "english";
     private static char c1; //= 'a';
@@ -131,7 +131,7 @@ public enum Message {
     }
 
     public void printError(CommandSender sender, Object... s) {
-        print (sender, s, 'c');
+        print (sender, s, settings.error_color.charAt(0), settings.error_color.charAt(0));
     }
 
     public void tip (Player player, Object... s) {

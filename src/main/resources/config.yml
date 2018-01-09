@@ -26,5 +26,7 @@ general:
   primary-color: a
   #Secondary color of messages
   secondary-color: 2
+  #Color of error messages
+  error-color: c
   #If true, a file with all strings will be created. You can edit the strings.
   save-translation: false

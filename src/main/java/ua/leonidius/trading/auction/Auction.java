@@ -3,11 +3,13 @@ package ua.leonidius.trading.auction;
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import me.onebone.economyapi.EconomyAPI;
+import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.Message;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static ua.leonidius.trading.Main.settings;
+import static ua.leonidius.trading.auction.Auction.*;
 
 /**
  * Created by Leonidius20 on 13.09.17.
@@ -102,6 +104,11 @@ public abstract class Auction {
             return;
         }
 
+        if (currentWinner!=null) {
+            EconomyAPI.getInstance().addMoney(currentWinner, currentBet);
+            Message.AUC_BID_RETURNED.print(currentWinner);
+        }
+        EconomyAPI.getInstance().reduceMoney(player, bet);
         currentWinner = player;
         currentBet = bet;
         Message.AUC_NEW_BID.broadcast(null, player.getName(), bet, settings.currency);
@@ -116,31 +123,43 @@ class StopAuction extends TimerTask {
         Auction.notifierTimer.cancel();
         Auction.setActive(false);
 
-        if (Auction.currentWinner==null) {
-            Auction.trader.getInventory().addItem(Auction.item);
+        if (currentWinner==null) {
+            trader.getInventory().addItem(item);
             Message.AUC_FINISHED_NOWINNER.broadcast(null);
-            Auction.trader.sendTip(Message.AUC_FINISHED.getText('c'));
-            Auction.trader.sendPopup(Message.AUC_NOBODY.getText('c'));
+            trader.sendTip(Message.AUC_FINISHED.getText('c'));
+            trader.sendPopup(Message.AUC_NOBODY.getText('c'));
             return;
         }
 
-        if (!Auction.currentWinner.getInventory().canAddItem(Auction.item)) {
-            Message.AUC_FINISHED_WINNER.broadcast(null, Auction.currentWinner.getName());
-            Message.AUC_WINNER_NO_SPACE.printError(Auction.trader);
-            Message.AUC_YOU_WON_NO_SPACE.printError(Auction.currentWinner);
-            EconomyAPI.getInstance().addMoney(Auction.trader, settings.auction_start_tax);
+        if (!currentWinner.getInventory().canAddItem(item)) {
+            Message.AUC_FINISHED_WINNER.broadcast(null, currentWinner.getName());
+            Message.AUC_WINNER_NO_SPACE.printError(trader);
+            Message.AUC_YOU_WON_NO_SPACE.printError(currentWinner);
+            EconomyAPI.getInstance().addMoney(trader, settings.auction_start_tax);
+            EconomyAPI.getInstance().addMoney(currentWinner, currentBet);
+            if (trader.getInventory().canAddItem(item)) {
+                trader.getInventory().addItem(item);
+            } else {
+                String key = "s-"+item.getId()+"-"+item.getDamage();
+                if (Main.sellcfg.exists(key)) {
+                    double compensation = Main.sellcfg.getDouble(key);
+                    EconomyAPI.getInstance().addMoney(trader, compensation);
+                    Message.AUC_NO_SPACE_FOR_RETURNING_COMPENSATION.print(trader, compensation, settings.currency);
+                } else {
+                    Message.AUC_NO_SPACE_FOR_RETURNING.print(trader);
+                }
+            }
             return;
         }
 
-        EconomyAPI.getInstance().reduceMoney(Auction.currentWinner, Auction.currentBet);
-        Auction.currentWinner.getInventory().addItem(Auction.item);
-        double endTax = Math.round((settings.auction_end_tax/100)* Auction.currentBet);
-        double finalEarnings = Auction.currentBet - endTax;
-        EconomyAPI.getInstance().addMoney(Auction.trader, finalEarnings);
-        Message.AUC_FINISHED_WINNER.broadcast(null, Auction.currentWinner.getName());
-        Message.AUC_FINISHED.tip(Auction.trader);
-        Message.AUC_YOU_EARNED.popup(Auction.trader, finalEarnings, settings.currency);
-        Auction.currentWinner=null;
+        currentWinner.getInventory().addItem(item);
+        double endTax = Math.round((settings.auction_end_tax/100)* currentBet);
+        double finalEarnings = currentBet - endTax;
+        EconomyAPI.getInstance().addMoney(trader, finalEarnings);
+        Message.AUC_FINISHED_WINNER.broadcast(null, currentWinner.getName());
+        Message.AUC_FINISHED.tip(trader);
+        Message.AUC_YOU_EARNED.popup(trader, finalEarnings, settings.currency);
+        currentWinner=null;
     }
 }
 
@@ -152,6 +171,6 @@ class AuctionNotifier extends TimerTask {
         long timePast = currentTime- Auction.startTime;
         long timeLeft = settings.auction_duration - timePast;
         Date timeLeftDate = new Date (timeLeft);
-        Message.AUC_NOTIFICATION.broadcast(null, Auction.item.getCount(), Auction.item.getName(), Auction.item.getId(), Auction.item.getDamage(), Auction.currentBet, settings.currency, Auction.sdf.format(timeLeftDate));
+        Message.AUC_NOTIFICATION.broadcast(null, item.getCount(), item.getName(), item.getId(), item.getDamage(), currentBet, settings.currency, Auction.sdf.format(timeLeftDate));
     }
 }
