@@ -142,7 +142,7 @@ class StopAuction extends TimerTask {
             } else {
                 String key = "s-"+item.getId()+"-"+item.getDamage();
                 if (Main.sellcfg.exists(key)) {
-                    double compensation = Main.sellcfg.getDouble(key);
+                    double compensation = Main.sellcfg.getDouble(key)*item.getCount();
                     EconomyAPI.getInstance().addMoney(trader, compensation);
                     Message.AUC_NO_SPACE_FOR_RETURNING_COMPENSATION.print(trader, compensation, settings.currency);
                 } else if (settings.auction_default_compensation!=0) {
