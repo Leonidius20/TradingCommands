@@ -5,6 +5,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandExecutor;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.PluginCommand;
+import cn.nukkit.item.Item;
 import ua.leonidius.trading.Main;
 import ua.leonidius.trading.utils.Message;
 
@@ -27,12 +28,14 @@ public class IdCmd extends PluginCommand implements CommandExecutor{
             Message.CMD_CONSOLE.printError(sender);
         } else {
             Player player = (Player) sender;
-            int id = player.getInventory().getItemInHand().getId();
-            int meta = player.getInventory().getItemInHand().getDamage();
+            Item heldItem = player.getInventory().getItemInHand();
+            int id = heldItem.getId();
+            int meta = heldItem.getDamage();
+            String name = heldItem.getName();
             if (id == 0){
                 Message.ID_EMPTY.printError(player);
             } else {
-                Message.ID_ITEMID.print(sender,"NOCOLOR", id, meta);
+                Message.ID_ITEMID.print(sender, name, id, meta);
             }
         }
         return true;

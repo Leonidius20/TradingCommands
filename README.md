@@ -1,4 +1,4 @@
-# TradingCommands
+# Trading Commands
 Trading Commands plugin for Nukkit.
 
 To build the plugin, add Nukkit's and EconomyAPI's JARs as libraries to the project.

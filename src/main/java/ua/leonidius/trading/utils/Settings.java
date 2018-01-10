@@ -27,6 +27,8 @@ public class Settings extends SimpleConfig {
     public int auction_end_tax = 0;
     @Path (value = "auction.start-tax")
     public int auction_start_tax = 0;
+    @Path (value = "auction.default-compensation")
+    public double auction_default_compensation = 0;
 
     //general
     @Path (value = "general.save-translation")

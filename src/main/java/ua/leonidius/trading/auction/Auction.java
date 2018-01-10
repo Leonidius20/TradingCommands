@@ -145,6 +145,9 @@ class StopAuction extends TimerTask {
                     double compensation = Main.sellcfg.getDouble(key);
                     EconomyAPI.getInstance().addMoney(trader, compensation);
                     Message.AUC_NO_SPACE_FOR_RETURNING_COMPENSATION.print(trader, compensation, settings.currency);
+                } else if (settings.auction_default_compensation!=0) {
+                    EconomyAPI.getInstance().addMoney(trader, settings.auction_default_compensation);
+                    Message.AUC_NO_SPACE_FOR_RETURNING_COMPENSATION.print(trader, settings.auction_default_compensation, settings.currency);
                 } else {
                     Message.AUC_NO_SPACE_FOR_RETURNING.print(trader);
                 }

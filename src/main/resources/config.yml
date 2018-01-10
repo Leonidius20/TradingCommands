@@ -13,11 +13,12 @@ auction:
   duration: 300000
   #Periodicity of notifications about the ongoing auction (in milliseconds)
   notify-period: 60000
-  #Price for starting an auction (set 0 to turn it off)
-  start-tax: 50
-  #End tax in percents (tax is taken from the final bid)
-  end-tax: 1
-
+  #Price for starting an auction. Set 0 to turn it off
+  start-tax: 0
+  #End tax in percents (tax is taken from the final bid). Set 0 to turn it off
+  end-tax: 0
+  #Default compensation for loosing the lot. It's paid to a trader if the auction winner has no free space in his inventory to get the lot, and the trader have no free space to get it back. Set 0 to turn it off
+  default-compensation: 0
 
 general:
   #Plugin language. if <default> - server language will be used. If there is no translation in your language, there will be created a file called <your_lang>.lng with all strings in English. You'll have to translate them.
