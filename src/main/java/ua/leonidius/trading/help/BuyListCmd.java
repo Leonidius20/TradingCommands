@@ -9,8 +9,8 @@ import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import ua.leonidius.trading.Main;
 import ua.leonidius.trading.buy.Buy;
-import ua.leonidius.trading.utils.Message;
 import ua.leonidius.trading.utils.ItemName;
+import ua.leonidius.trading.utils.Message;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -34,20 +34,8 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        String output;
-        Config cfg;
-        boolean isCmdBuyList;
-        if (command == Main.getPlugin().getCommand("buylist")){
-            output = Message.LIST_CAN_BUY.toString();
-            cfg = Main.buycfg;
-            isCmdBuyList = true;
-        } else if (command == Main.getPlugin().getCommand("selllist")){
-            output = Message.LIST_CAN_SELL.toString();
-            cfg = Main.sellcfg;
-            isCmdBuyList = false;
-        } else {
-            return false;
-        }
+        String output = Message.LIST_CAN_BUY.toString();
+        Config cfg = Main.buycfg;
         Set keyset = cfg.getAll().keySet();
         Iterator it = keyset.iterator();
         if (it.hasNext()) {
@@ -61,7 +49,7 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
                         String name = ItemName.get(id, meta);
                         double price = Buy.getPrice(Item.get(id, meta));
                         String discountKey = "d-"+id+"-"+meta;
-                        if (isCmdBuyList && Main.discountCfg.exists(discountKey)) {
+                        if (Main.discountCfg.exists(discountKey)) {
                             double discount = Main.discountCfg.getDouble(discountKey);
                             output = output+" "+TextFormat.YELLOW+name
                                     +TextFormat.WHITE+" ("+id+":"+meta+")"+" - "
@@ -80,7 +68,7 @@ public class BuyListCmd extends PluginCommand implements CommandExecutor{
             output = output +" "+Message.LIST_PRICES_IN.getText(settings.currency, "NOCOLOR");
             sender.sendMessage(output);
         } else {
-            Message.LIST_NOTHING.print(sender, "NOCOLOR");
+            Message.LIST_NOTHING.printError(sender);
         }
         return true;
     }

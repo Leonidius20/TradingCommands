@@ -41,6 +41,8 @@ public class Settings extends SimpleConfig {
     String error_color = "c";
     @Path (value = "general.language")
     String language = "default";
+    @Path (value = "general.transaction-logging")
+    public boolean logging = false;
 
     public String currency;
 

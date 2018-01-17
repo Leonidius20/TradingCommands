@@ -1,17 +1,18 @@
 package ua.leonidius.trading.utils;
 
-    import cn.nukkit.Player;
-    import cn.nukkit.Server;
-    import cn.nukkit.command.CommandSender;
-    import cn.nukkit.level.Location;
-    import cn.nukkit.plugin.PluginBase;
-    import cn.nukkit.utils.Config;
-    import cn.nukkit.utils.TextFormat;
-    import java.io.File;
-    import java.io.InputStream;
-    import java.text.DecimalFormat;
+import cn.nukkit.Player;
+import cn.nukkit.Server;
+import cn.nukkit.command.CommandSender;
+import cn.nukkit.level.Location;
+import cn.nukkit.plugin.PluginBase;
+import cn.nukkit.utils.Config;
+import cn.nukkit.utils.TextFormat;
 
-    import static ua.leonidius.trading.Main.settings;
+import java.io.File;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+
+import static ua.leonidius.trading.Main.settings;
 
 
 public enum Message {
@@ -26,6 +27,7 @@ public enum Message {
 
     SELL_NOT_SELLING ("You cannot sell this item."),
     SELL_YOU_SOLD ("You have sold %1%x %2% (%3%:%4%) for %5%%6%."),
+    SELL_LOG ("Player %1% have sold %2%x %3% (%4%:%5%) for %6%%7%"),
     SELL_LESS_THAN_ONE ("You cannot sell less than one item."),
     SELL_NO_ITEM ("You have no items to sell."),
     SELL_NO_ITEM_MAX ("Not enough items, max possible amount will be sold (%1%)."),
@@ -35,6 +37,7 @@ public enum Message {
     BUY_LESS_THAN_ONE ("You cannot buy less than one item."),
     BUY_NOT_ENOUGH_MONEY ("Not enough money."),
     BUY_YOU_BOUGHT ("You have bought %1%x %2% (%3%:%4%) for %5%%6%."),
+    BUY_LOG ("Player %1% have bought %2%x %3% (%4%:%5%) for %6%%7%"),
     BUY_NO_SPACE ("Not enough space in your inventory."),
     BUY_NO_SPACE_MAX ("Not enough space in your inventory, max possible amount will be purchased (%1%)."),
     BUY_NO_MONEY_MAX ("Not enough money, max possible amount will be purchased (%1%)."),

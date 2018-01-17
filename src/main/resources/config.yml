@@ -29,5 +29,7 @@ general:
   secondary-color: 2
   #Color of error messages
   error-color: c
+  #Saving info about all transactions to log
+  transaction-logging: false
   #If true, a file with all strings will be created. You can edit the strings.
   save-translation: false

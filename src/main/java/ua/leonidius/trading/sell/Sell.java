@@ -35,7 +35,9 @@ public abstract class Sell {
         player.getInventory().clear(slot);
         EconomyAPI.getInstance().addMoney(player, cost);
         Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
-
+        if (Main.settings.logging) {
+            Message.SELL_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+        }
     }
 
     static void sellItem(Player player, Item item) {
@@ -73,8 +75,10 @@ public abstract class Sell {
         String name = ItemName.get(item);
         player.getInventory().removeItem(item);
         EconomyAPI.getInstance().addMoney(player, cost);
-
         Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
+        if (Main.settings.logging) {
+            Message.SELL_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+        }
     }
 
     public static int getItemCount(Player player, Item item){

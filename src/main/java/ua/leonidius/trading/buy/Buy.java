@@ -58,6 +58,9 @@ public abstract class Buy {
         int meta = item.getDamage();
         String name = ItemName.get(item);
         Message.BUY_YOU_BOUGHT.print(player, amount, name, id, meta, cost, Main.settings.currency);
+        if (Main.settings.logging) {
+            Message.BUY_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+        }
     }
 
     private static boolean canBuy (Item item){
