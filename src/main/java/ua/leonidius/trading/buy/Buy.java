@@ -59,7 +59,7 @@ public abstract class Buy {
         String name = ItemName.get(item);
         Message.BUY_YOU_BOUGHT.print(player, amount, name, id, meta, cost, Main.settings.currency);
         if (Main.settings.logging) {
-            Message.BUY_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+            Message.BUY_LOG.log(player.getName(), amount, name, id, meta, cost, Main.settings.currency);
         }
     }
 

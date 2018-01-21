@@ -36,7 +36,7 @@ public abstract class Sell {
         EconomyAPI.getInstance().addMoney(player, cost);
         Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
         if (Main.settings.logging) {
-            Message.SELL_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+            Message.SELL_LOG.log(player.getName(), amount, name, id, meta, cost, Main.settings.currency);
         }
     }
 
@@ -77,7 +77,7 @@ public abstract class Sell {
         EconomyAPI.getInstance().addMoney(player, cost);
         Message.SELL_YOU_SOLD.print(player, amount, name, id, meta, cost, Main.settings.currency);
         if (Main.settings.logging) {
-            Message.SELL_LOG.log(player, amount, name, id, meta, cost, Main.settings.currency);
+            Message.SELL_LOG.log(player.getName(), amount, name, id, meta, cost, Main.settings.currency);
         }
     }
 
