@@ -1,6 +1,6 @@
 name: Trading Commands
 main: ua.leonidius.trading.Main
-version: 1.0.2
+version: 1.0.3
 author: Leonidius20
 api: ["1.0.0"]
 description: Shop and auction system, based on commands.

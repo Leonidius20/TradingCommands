@@ -74,14 +74,18 @@ public abstract class Buy {
         int id = item.getId();
         int meta = item.getDamage();
         String key = "b-"+id+"-"+meta;
+
         double priceWithoutDiscount = Main.buycfg.getDouble(key);
-        double priceWithDiscount = priceWithoutDiscount;
+
         String discountKey = "d-"+id+"-"+meta;
+
         if (Main.discountCfg.exists(discountKey)) {
-            double discountModifier = Main.discountCfg.getDouble(discountKey)/100;
-            priceWithDiscount = priceWithoutDiscount*discountModifier;
+            double discountPercent = Main.discountCfg.getDouble(discountKey);
+            double discount = (priceWithoutDiscount * discountPercent) / 100;
+            return priceWithoutDiscount - discount;
         }
-        return priceWithDiscount;
+
+        return priceWithoutDiscount;
     }
 
     private static int getMaxByMoney(Player player, Item item){
