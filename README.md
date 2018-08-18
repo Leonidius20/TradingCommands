@@ -2,7 +2,7 @@
 **Trading Commands** is a shop and auction system for [NukkitX][nukkitx] server software for Minecraft Bedrock Edition, based on commands.
 
 ### Setting up
-* Make sure that EconomyAPI is installed;
+* Make sure that [EconomyAPI][economy] is installed;
 * Place the plugin's .jar file into "plugins" forlder on your server;
 * Set up the configuration file (see "Configuration file");
 * Set up the lists of buyable and sellable items using admin commands. The lists update automaticaly after editing, so you don't need to reboot your server.
@@ -38,10 +38,11 @@ All parameters in the [configuration file](src/main/resources/config.yml) are co
 The plugin supports custom translations. In order to use your own language, set `general.languauge` option in the config file to [your_lang]. The plugin will create [your_lang].lng file with English strings. You have to translate the text in this file to your languauge.
 
 ### Building from sources
-To build the plugin, add [NukkitX][nukkitx] and EconomyAPI as libraries.
+To build the plugin, add [NukkitX][nukkitx] and [EconomyAPI][economy] as libraries.
 
 ### Links
 * [Trading Commands on nukkitx.com](https://nukkitx.com/resources/trading-commands.13/)
 * [Trading Commands on nukkit.ru](http://forums.voxelwind.com/resources/trading-commands.120/)
 
-[nukkitx]: http://github.com/NukkitX/Nukkit
+[nukkitx]: https://github.com/NukkitX/Nukkit
+[economy]: https://github.com/EconomyS/EconomyAPI
