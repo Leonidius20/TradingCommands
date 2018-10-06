@@ -76,6 +76,10 @@ public class StartAuctionCmd extends PluginCommand implements CommandExecutor {
         if (args.length >= 2) item = Item.fromString(args[0]);
         else item = player.getInventory().getItemInHand();
         if (item.getId() == 0) return false;
+        if (item.hasCustomName()) {
+            Message.AUC_CUSTOM_NAME.printError(player);
+            return true;
+        }
 
         int amount;
 

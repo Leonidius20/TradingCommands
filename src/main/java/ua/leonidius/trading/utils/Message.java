@@ -105,7 +105,8 @@ public enum Message {
     AUC_WINNER_NO_SPACE ("Auction winner has no free space in his inventory. The lot and the tax were returned."),
     AUC_YOU_WON_NO_SPACE ("You won the auction, but there is not enough space in your inventory. The bid was returned."),
     AUC_NO_SPACE_FOR_RETURNING_COMPENSATION ("The lot had to be returned to you, but there is no free space in your inventory. You've been paid a compensation (%1%%2%)."),
-    AUC_NO_SPACE_FOR_RETURNING ("The lot had to be returned to you, but there is no free space in your inventory.");
+    AUC_NO_SPACE_FOR_RETURNING ("The lot had to be returned to you, but there is no free space in your inventory."),
+    AUC_CUSTOM_NAME ("You can't sell an item with a custom name.");
 
     private static String language = "english";
     private static char c1; //= 'a';
