@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Trading">
-    <output-path>$USER_HOME$/Nukkit/plugins</output-path>
-    <root id="archive" name="Trading.jar">
-      <element id="module-output" name="Trading" />
-    </root>
-  </artifact>
-</component>

@@ -4,6 +4,7 @@ version: 1.0.4
 author: Leonidius20
 api: ["1.0.0"]
 description: Shop and auction system, based on commands.
+url: https://github.com/Leonidius20/TradingCommands
 depend:
 - EconomyAPI
 permissions:
